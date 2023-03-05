@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:halal_mobile_app/api/clients/food_additive_api_client.dart';
+import 'package:halal_mobile_app/api/clients/food_additive_api_client/food_additive_api_client.dart';
 import 'package:halal_mobile_app/api/models/food_additive/food_additive.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,11 +14,12 @@ class HttpFoodAdditiveApiClient extends FoodAdditiveApi {
       : _client = client ?? http.Client();
 
   final http.Client _client;
-  static const _baseUrl = 'https://eedb-45-142-215-13.ngrok.io';
+  // TODO - fill base url
+  static const _baseUrl = '';
 
   @override
   Future<FoodAdditive?> getFoodAdditive(int id) async {
-    final uri = Uri.parse('$_baseUrl/api/food_additives/$id');
+    final uri = Uri.parse('$_baseUrl/food_additives/$id');
     final response = await _client.get(uri);
     if (response.statusCode != HttpStatus.ok) {
       throw FoodAdditiveByIdFailure();
@@ -29,8 +30,12 @@ class HttpFoodAdditiveApiClient extends FoodAdditiveApi {
   }
 
   @override
-  Future<List<FoodAdditive>?> getFoodAdditives() async {
-    final uri = Uri.parse('$_baseUrl/api/food_additives');
+  Future<List<FoodAdditive>?> getFoodAdditives({int offset=0, int limit=100}) async {
+    final queryParameters = {
+      'offset': '$offset',
+      'limit': '$limit',
+    };
+    final uri = Uri.https(_baseUrl, '/food_additives', queryParameters);
     final response = await _client.get(uri);
     if (response.statusCode != HttpStatus.ok) {
       throw FoodAdditivesFailure();

@@ -1,4 +1,4 @@
-import '../models/food_additive/food_additive.dart';
+import '../../models/food_additive/food_additive.dart';
 
 abstract class FoodAdditiveApi {
   const FoodAdditiveApi();
