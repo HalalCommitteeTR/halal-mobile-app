@@ -1,5 +1,3 @@
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 enum HomeTab { composition, venues, lectures, prayerTime }
@@ -13,12 +11,4 @@ class HomeState extends Equatable {
 
   @override
   List<Object?> get props => [tab];
-}
-
-class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(const HomeState());
-
-  void setTab(HomeTab tab) => emit(HomeState(tab: tab));
-
-
 }
