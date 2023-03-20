@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:halal_mobile_app/api/models/item/Item.dart';
 import 'package:hive/hive.dart';
 
 part 'food_additive.freezed.dart';
@@ -13,7 +14,7 @@ enum Permissiveness {
 
 @HiveType(typeId: 1)
 @freezed
-class FoodAdditive with _$FoodAdditive {
+class FoodAdditive extends Item with _$FoodAdditive {
   const factory FoodAdditive(
       {required int id,
       required String name,

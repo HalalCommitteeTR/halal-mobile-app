@@ -4,6 +4,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'package:halal_mobile_app/home/cubit/home_cubit.dart';
 import 'package:halal_mobile_app/home/cubit/home_state.dart';
+import 'package:halal_mobile_app/items_overview/view/items_overview_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class HomeView extends StatelessWidget {
       body: IndexedStack(
         index: selectedTab.index,
         children: const [
-          Text('cookie'),
+          ItemsOverviewPage(),
           Text('map'),
           Text('settings'),
         ],
