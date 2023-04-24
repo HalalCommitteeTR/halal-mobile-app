@@ -16,7 +16,7 @@ class HttpFoodAdditiveApiClient extends FoodAdditiveApi {
   final http.Client _client;
 
   // TODO - fill base url
-  static const _baseUrl = 'https://28e5-188-130-155-160.eu.ngrok.io/api/v1';
+  static const _baseUrl = 'https://e67c-188-130-155-160.eu.ngrok.io/api/v1';
 
   @override
   Future<FoodAdditive?> getFoodAdditive(int id) async {
@@ -39,7 +39,7 @@ class HttpFoodAdditiveApiClient extends FoodAdditiveApi {
     };
     // final uri = Uri.https(_baseUrl, '/food_additives', queryParameters);
     final uri = Uri.parse('$_baseUrl/food_additives')
-      ..replace(queryParameters: queryParameters);
+        .replace(queryParameters: queryParameters);
     print(uri);
     final response = await _client.get(uri);
     if (response.statusCode != HttpStatus.ok) {

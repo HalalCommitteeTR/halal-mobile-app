@@ -42,3 +42,12 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+*.freezed.dart
+*.g.dart
+
+untranslated_messages.json
+firebase_options.dart
+firebase_app_id_file.json
+google-services.json
+GoogleService-Info.plist

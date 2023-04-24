@@ -55,18 +55,37 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView> {
           if (state.items.isEmpty) {
             return const Text('no items');
           }
-          return ListView.builder(
-            itemBuilder: (context, index) {
-              return index >= state.items.length
-                  ? const BottomLoader()
-                  : FoodAdditiveTile(
-                      foodAdditive: state.items[index] as FoodAdditive);
-            },
-            itemCount: state.hasReachedMax
-                ? state.items.length
-                : state.items.length + 1,
+          return CustomScrollView(
             controller: _scrollController,
+            slivers: [
+              SliverPersistentHeader(
+                delegate: ItemSliverAppBar(expandedHeight: 112),
+                pinned: true,
+              ),
+              SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      childCount: state.hasReachedMax
+                          ? state.items.length
+                          : state.items.length + 1, (_, index) {
+                return index >= state.items.length
+                    ? const BottomLoader()
+                    : FoodAdditiveTile(
+                        foodAdditive: state.items[index] as FoodAdditive);
+              }))
+            ],
           );
+        // return ListView.builder(
+        //   itemBuilder: (context, index) {
+        //     return index >= state.items.length
+        //         ? const BottomLoader()
+        //         : FoodAdditiveTile(
+        //             foodAdditive: state.items[index] as FoodAdditive);
+        //   },
+        //   itemCount: state.hasReachedMax
+        //       ? state.items.length
+        //       : state.items.length + 1,
+        //   controller: _scrollController,
+        // );
       }
     });
   }
@@ -94,3 +113,74 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView> {
     return currentScroll >= (maxScroll * 0.9);
   }
 }
+
+class ItemSliverAppBar extends SliverPersistentHeaderDelegate {
+  ItemSliverAppBar({required this.expandedHeight});
+
+  final double expandedHeight;
+
+  bool isExpanded(double shrinkOffset) =>
+      shrinkOffset <= maxExtent - minExtent - 16;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Stack(
+      fit: StackFit.expand,
+      // alignment: Alignment.center,
+      children: [
+        OverflowBox(
+          alignment: Alignment.center,
+          maxWidth: double.infinity,
+          // left: -55,
+          // top: 47,
+          child: Container(
+            width: 500,
+            height: 90,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xff1CB555),
+                  Color(0xff17A64C),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0.6302, 1.0],
+              ),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(100),
+                bottomRight: Radius.circular(100),
+              ),
+            ),
+            // margin: const EdgeInsets.only(left: 55, top: 47),
+          ),
+        ),
+        // Center(child: Text('ProHalal'),),
+        Center(
+          child: Container(
+            color: Colors.white,
+            width: double.infinity,
+            height: 150,
+            margin: const EdgeInsets.only(
+              left: 30,
+              right: 30,
+              top: 82,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  @override
+  double get maxExtent => expandedHeight;
+
+  @override
+  double get minExtent => kToolbarHeight;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
+      true;
+}
+
+const double kToolbarHeight = 92;

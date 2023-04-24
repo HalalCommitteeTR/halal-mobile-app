@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:halal_mobile_app/api/models/food_additive/food_additive.dart';
 import 'package:halal_mobile_app/items_overview/widgets/permissiveness_badge.dart';
+import 'package:hive/hive.dart';
 
 class FoodAdditiveTile extends StatefulWidget {
   final FoodAdditive foodAdditive;
@@ -17,10 +18,21 @@ class FoodAdditiveTile extends StatefulWidget {
 class _FoodAdditiveTileState extends State<FoodAdditiveTile> {
   bool _expanded = false;
 
+  Color get _borderColor {
+    switch (widget.foodAdditive.permissiveness) {
+      case Permissiveness.halal:
+        return const Color(0xFF1CB555);
+      case Permissiveness.haram:
+        return const Color(0xFFB5221B);
+      case Permissiveness.doubtful:
+        return const Color(0xFF1C4C89);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: const [
@@ -35,23 +47,43 @@ class _FoodAdditiveTileState extends State<FoodAdditiveTile> {
             spreadRadius: 0,
           ),
         ],
-        gradient: const LinearGradient(
-          stops: [1/69, 1/69],
-          colors: [Colors.blue, Colors.white],
+        gradient: LinearGradient(
+          stops: const [1 / 69, 1 / 69],
+          colors: [_borderColor, Colors.white],
         ),
         borderRadius: BorderRadius.circular(10),
       ),
       child: ExpansionTile(
-        leading: const SizedBox(
+        leading: Container(
           height: double.infinity,
-          child: Icon(Icons.emoji_food_beverage_rounded),
+          width: double.infinity,
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.1),
+                offset: Offset(0, 0),
+                blurRadius: 10,
+              ),
+            ],
+            borderRadius: BorderRadius.circular(10),
+          ),
+          constraints: const BoxConstraints.tightFor(
+            height: 50,
+            width: 50,
+          ),
+          child: Image.network(
+            widget.foodAdditive.imageSource ?? '',
+            errorBuilder: (context, _, __) =>
+                const Icon(Icons.emoji_food_beverage_rounded),
+          ),
         ),
         title: Text(widget.foodAdditive.name),
         subtitle: Text(widget.foodAdditive.eNumber ?? ''),
         trailing: PermissivenessBadge(
             permissiveness: widget.foodAdditive.permissiveness),
         children: [
-          Text(widget.foodAdditive.permissiveness.toString()),
           Text(widget.foodAdditive.description ?? ''),
         ],
         onExpansionChanged: (isExpanded) => setState(() {
