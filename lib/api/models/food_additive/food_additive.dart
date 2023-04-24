@@ -24,7 +24,7 @@ class FoodAdditive extends Item with _$FoodAdditive {
       String? description,
       String? source,
       @JsonKey(name: 'img_src')
-      String? imageSource}) = _FoodAdditive;
+      String? imageSource,}) = _FoodAdditive;
 
   factory FoodAdditive.fromJson(Map<String, Object?> json) =>
       _$FoodAdditiveFromJson(json);

@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:halal_mobile_app/api/api.dart';
-import 'package:halal_mobile_app/items_overview/bloc/items_overview_bloc.dart';
-
+import 'package:halal_mobile_app/features/items_overview/bloc/items_overview_bloc.dart';
 import 'package:halal_mobile_app/repositories/item_repository.dart';
-
-import '../widgets/bottom_loader.dart';
-import '../widgets/item_tile.dart';
+import 'package:halal_mobile_app/features/items_overview/widgets/bottom_loader.dart';
+import 'package:halal_mobile_app/features/items_overview/widgets/food_additive_tile.dart';
 
 class ItemsOverviewPage extends StatelessWidget {
   const ItemsOverviewPage({Key? key}) : super(key: key);
@@ -42,52 +40,57 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ItemsOverviewBloc, ItemsOverviewState>(
-        builder: (context, state) {
-      switch (state.status) {
-        case ItemsOverviewStatus.failure:
-          return const Text('Fail to load items');
-        case ItemsOverviewStatus.initial:
-          return const CircularProgressIndicator();
-        case ItemsOverviewStatus.loading:
-          // TODO: No need in this state
-          return const CircularProgressIndicator();
-        case ItemsOverviewStatus.success:
-          if (state.items.isEmpty) {
-            return const Text('no items');
-          }
-          return CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              SliverPersistentHeader(
-                delegate: ItemSliverAppBar(expandedHeight: 112),
-                pinned: true,
-              ),
-              SliverList(
+      builder: (context, state) {
+        switch (state.status) {
+          case ItemsOverviewStatus.failure:
+            return const Text('Fail to load items');
+          case ItemsOverviewStatus.initial:
+            return const CircularProgressIndicator();
+          case ItemsOverviewStatus.loading:
+            // TODO: No need in this state
+            return const CircularProgressIndicator();
+          case ItemsOverviewStatus.success:
+            if (state.items.isEmpty) {
+              return const Text('no items');
+            }
+            return CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                SliverPersistentHeader(
+                  delegate: ItemSliverAppBar(expandedHeight: 112),
+                  pinned: true,
+                ),
+                SliverList(
                   delegate: SliverChildBuilderDelegate(
-                      childCount: state.hasReachedMax
-                          ? state.items.length
-                          : state.items.length + 1, (_, index) {
-                return index >= state.items.length
-                    ? const BottomLoader()
-                    : FoodAdditiveTile(
-                        foodAdditive: state.items[index] as FoodAdditive);
-              }))
-            ],
-          );
-        // return ListView.builder(
-        //   itemBuilder: (context, index) {
-        //     return index >= state.items.length
-        //         ? const BottomLoader()
-        //         : FoodAdditiveTile(
-        //             foodAdditive: state.items[index] as FoodAdditive);
-        //   },
-        //   itemCount: state.hasReachedMax
-        //       ? state.items.length
-        //       : state.items.length + 1,
-        //   controller: _scrollController,
-        // );
-      }
-    });
+                    childCount: state.hasReachedMax
+                        ? state.items.length
+                        : state.items.length + 1,
+                    (_, index) {
+                      return index >= state.items.length
+                          ? const BottomLoader()
+                          : FoodAdditiveTile(
+                              foodAdditive: state.items[index] as FoodAdditive,
+                            );
+                    },
+                  ),
+                ),
+              ],
+            );
+          // return ListView.builder(
+          //   itemBuilder: (context, index) {
+          //     return index >= state.items.length
+          //         ? const BottomLoader()
+          //         : FoodAdditiveTile(
+          //             foodAdditive: state.items[index] as FoodAdditive);
+          //   },
+          //   itemCount: state.hasReachedMax
+          //       ? state.items.length
+          //       : state.items.length + 1,
+          //   controller: _scrollController,
+          // );
+        }
+      },
+    );
   }
 
   @override
@@ -124,7 +127,7 @@ class ItemSliverAppBar extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+      BuildContext context, double shrinkOffset, bool overlapsContent,) {
     return Stack(
       fit: StackFit.expand,
       // alignment: Alignment.center,
@@ -167,7 +170,7 @@ class ItemSliverAppBar extends SliverPersistentHeaderDelegate {
               top: 82,
             ),
           ),
-        )
+        ),
       ],
     );
   }

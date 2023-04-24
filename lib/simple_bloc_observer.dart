@@ -1,20 +1,21 @@
 import 'package:bloc/bloc.dart';
+import 'package:halal_mobile_app/logger/logger.dart';
 
 class SimpleBlocObserver extends BlocObserver {
   SimpleBlocObserver();
 
   @override
   void onTransition(
-      Bloc<dynamic, dynamic> bloc,
-      Transition<dynamic, dynamic> transition,
+      Bloc bloc,
+      Transition transition,
       ) {
     super.onTransition(bloc, transition);
-    print(transition);
+    logger.v(transition);
   }
 
   @override
-  void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {
-    print(error);
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    logger.e(error, error, stackTrace);
     super.onError(bloc, error, stackTrace);
   }
 }

@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:halal_mobile_app/repositories/item_repository.dart';
 
 import 'package:halal_mobile_app/api/models/item/Item.dart';
-import 'package:halal_mobile_app/items_overview/models/items_filter_view.dart';
+import 'package:halal_mobile_app/features/items_overview/models/items_filter_view.dart';
 
 part 'items_overview_event.dart';
 

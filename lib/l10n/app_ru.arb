@@ -1,6 +1,9 @@
 {
-  "title": "Халяльное приложение",
+  "title": "ProHalal",
   "settings": "Настройки",
   "directory": "Справочник",
-  "caterings": "Общепиты"
+  "caterings": "Общепиты",
+  "halal": "халяль",
+  "haram": "харам",
+  "doubtful": "харам / халяль"
 }

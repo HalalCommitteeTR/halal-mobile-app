@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:halal_mobile_app/api/api.dart';
+import 'package:halal_mobile_app/app_locale.dart';
 
 class PermissivenessBadge extends StatelessWidget {
   const PermissivenessBadge({Key? key, required this.permissiveness})
@@ -15,7 +17,6 @@ class PermissivenessBadge extends StatelessWidget {
         return const Color.fromRGBO(17, 109, 51, 0.6);
       case Permissiveness.doubtful:
         return const Color.fromRGBO(17, 46, 82, 0.6);
-
     }
   }
 
@@ -30,14 +31,14 @@ class PermissivenessBadge extends StatelessWidget {
     }
   }
 
-  String get _name {
+  String _name(BuildContext context) {
     switch (permissiveness) {
       case Permissiveness.haram:
-        return 'харам';
+        return AppLocale.of(context).haram;
       case Permissiveness.halal:
-        return 'халяль';
+        return AppLocale.of(context).halal;
       case Permissiveness.doubtful:
-        return 'харам / халяль';
+        return AppLocale.of(context).doubtful;
     }
   }
 
@@ -50,7 +51,7 @@ class PermissivenessBadge extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 3),
       child: Text(
-        _name,
+        _name(context),
         style: TextStyle(
           color: _textColor,
         ),

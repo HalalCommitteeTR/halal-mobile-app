@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:halal_mobile_app/app_locale.dart';
 import 'package:halal_mobile_app/repositories/item_repository.dart';
-import 'package:halal_mobile_app/home/home.dart';
-import 'package:halal_mobile_app/theme/theme.dart';
+import 'package:halal_mobile_app/features/home/home.dart';
+import 'package:halal_mobile_app/theme/halal_app_theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key, required this.itemRepository});
