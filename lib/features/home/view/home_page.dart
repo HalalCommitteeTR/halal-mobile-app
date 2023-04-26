@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:halal_mobile_app/features/caterings/view/caterings_page.dart';
 
 import 'package:halal_mobile_app/features/home/cubit/home_cubit.dart';
 import 'package:halal_mobile_app/features/home/cubit/home_state.dart';
@@ -25,12 +26,12 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final selectedTab = context.select((HomeCubit cubit) => cubit.state.tab);
     return Scaffold(
+      // backgroundColor: Theme.of(context).primaryColor,
       body: IndexedStack(
         index: selectedTab.index,
         children: const [
           ItemsOverviewPage(),
-          Text('map'),
-          Text('settings'),
+          CateringsPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -45,6 +46,7 @@ class HomeView extends StatelessWidget {
           ),
         ],
         showUnselectedLabels: true,
+        currentIndex: selectedTab.index,
         selectedItemColor: Colors.green,
         backgroundColor: Colors.white,
         onTap: (index) => context.read<HomeCubit>().setTab(
