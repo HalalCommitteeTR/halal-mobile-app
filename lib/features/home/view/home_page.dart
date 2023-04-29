@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:halal_mobile_app/features/caterings/view/caterings_page.dart';
 
+import 'package:halal_mobile_app/features/caterings/view/caterings_page.dart';
 import 'package:halal_mobile_app/features/home/cubit/home_cubit.dart';
 import 'package:halal_mobile_app/features/home/cubit/home_state.dart';
 import 'package:halal_mobile_app/features/items_overview/view/items_overview_page.dart';
 import 'package:halal_mobile_app/app_locale.dart';
+import 'package:halal_mobile_app/halal_icons.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final selectedTab = context.select((HomeCubit cubit) => cubit.state.tab);
     return Scaffold(
-      // backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).primaryColor,
       body: IndexedStack(
         index: selectedTab.index,
         children: const [
@@ -35,19 +36,21 @@ class HomeView extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedFontSize: 10,
+        unselectedFontSize: 10,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt_outlined),
+            icon: Icon(HalalIcons.directory),
             label: AppLocale.of(context).directory.toUpperCase(),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.fastfood_outlined),
+            icon: Icon(HalalIcons.caterings),
             label: AppLocale.of(context).caterings.toUpperCase(),
           ),
         ],
         showUnselectedLabels: true,
         currentIndex: selectedTab.index,
-        selectedItemColor: Colors.green,
+        selectedItemColor: Theme.of(context).primaryColor,
         backgroundColor: Colors.white,
         onTap: (index) => context.read<HomeCubit>().setTab(
               HomeTab.values[index],

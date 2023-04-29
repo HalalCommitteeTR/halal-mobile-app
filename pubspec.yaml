@@ -42,3 +42,18 @@ flutter:
   generate: true
   assets:
     - assets/images/
+    - assets/icons/
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Regular.ttf
+    - family: RobotoSlab
+      fonts:
+        - asset: assets/fonts/RobotoSlab-Regular.ttf
+        - asset: assets/fonts/RobotoSlab-Medium.ttf
+        - asset: assets/fonts/RobotoSlab-Light.ttf
+
+    - family: halal-icons
+      fonts:
+        - asset: assets/fonts/halal-icons.ttf
+

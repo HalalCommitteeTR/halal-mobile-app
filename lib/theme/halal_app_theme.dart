@@ -5,6 +5,7 @@ class HalalAppTheme {
   static const unselectedColor = Color(0xFF7E8188);
   static ThemeData get light {
     return ThemeData(
+      fontFamily: 'OpenSans',
       primaryColor: accentColor,
       unselectedWidgetColor: unselectedColor,
       iconTheme: IconThemeData(color: unselectedColor,),
