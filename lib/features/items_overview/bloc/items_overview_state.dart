@@ -7,12 +7,14 @@ class ItemsOverviewState extends Equatable {
     this.status = ItemsOverviewStatus.initial,
     this.items = const [],
     this.filter = ItemsViewFilter.all,
+    // this.permissivenessFilter = PermissivenessFilter.standard(),
     this.hasReachedMax = false,
   });
 
   final ItemsOverviewStatus status;
   final List<Item> items;
   final ItemsViewFilter filter;
+  // final PermissivenessFilter permissivenessFilter;
   final bool hasReachedMax;
 
   Iterable<Item> get filteredTodos => filter.applyAll(items);

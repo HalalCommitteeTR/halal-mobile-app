@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:halal_mobile_app/app_locale.dart';
 import 'package:halal_mobile_app/halal_icons.dart';
 
+import 'filter_window.dart';
+
 class SearchBar extends StatefulWidget {
   const SearchBar({Key? key}) : super(key: key);
 
@@ -16,6 +18,7 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 68,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
@@ -50,7 +53,12 @@ class _SearchBarState extends State<SearchBar> {
               child: IconButton(
                 padding: EdgeInsets.zero,
                 iconSize: 16,
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) => FilterWindow(),
+                  );
+                },
                 icon: SvgPicture.asset('assets/icons/filter.svg'),
               ),
             ),

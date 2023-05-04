@@ -28,16 +28,20 @@ class FoodAdditiveTile extends StatelessWidget {
       title: Text(foodAdditive.name),
       subtitle:
       foodAdditive.eNumber != null ? Text(foodAdditive.eNumber!) : null,
-      leading: Image.network(
-        foodAdditive.imageSource ?? '',
-        errorBuilder: (context, _, __) =>
-        const Icon(Icons.emoji_food_beverage_rounded),
-      ),
+      // leading: Image.network(
+      //   foodAdditive.imageSource ?? '',
+      //   errorBuilder: (context, _, __) =>
+      //   const Icon(Icons.emoji_food_beverage_rounded),
+      // ),
+      leading: const Icon(Icons.emoji_food_beverage_rounded),
       trailing: PermissivenessBadge(
         permissiveness: foodAdditive.permissiveness,
       ),
       description: foodAdditive.description != null
-          ? Text(foodAdditive.description!)
+          ? Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(foodAdditive.description!),
+          )
           : null,
       borderColor: _borderColor,
     );

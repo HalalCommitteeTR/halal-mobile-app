@@ -16,7 +16,7 @@ class HttpFoodAdditiveApiClient extends FoodAdditiveApi {
   final http.Client _client;
 
   // TODO - fill base url
-  static const _baseUrl = 'https://e67c-188-130-155-160.eu.ngrok.io/api/v1';
+  static const _baseUrl = 'https://33a3-188-130-155-165.ngrok-free.app/api/v1';
 
   @override
   Future<FoodAdditive?> getFoodAdditive(int id) async {
@@ -26,13 +26,14 @@ class HttpFoodAdditiveApiClient extends FoodAdditiveApi {
       throw FoodAdditiveByIdFailure();
     }
     final json = jsonDecode(response.body);
-    final foodAdditive = FoodAdditive.fromJson(json);
-    return foodAdditive;
+    return FoodAdditive.fromJson(json);
   }
 
   @override
-  Future<List<FoodAdditive>?> getFoodAdditives(
-      {int offset = 0, int limit = 15}) async {
+  Future<List<FoodAdditive>?> getFoodAdditives({
+    int offset = 0,
+    int limit = 15,
+  }) async {
     final queryParameters = {
       'offset': '$offset',
       'limit': '$limit',
@@ -46,11 +47,12 @@ class HttpFoodAdditiveApiClient extends FoodAdditiveApi {
       throw FoodAdditivesFailure();
     }
     final json = jsonDecode(response.body);
-    final foodAdditivesList = List<FoodAdditive>.from(
+    return List<FoodAdditive>.from(
       json.map(
-        (jsonFoodAdditive) => FoodAdditive.fromJson(jsonFoodAdditive),
+        (jsonFoodAdditive) => FoodAdditive.fromJson(
+          jsonFoodAdditive,
+        ),
       ),
     );
-    return foodAdditivesList;
   }
 }

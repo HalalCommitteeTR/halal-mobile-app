@@ -5,6 +5,7 @@ import 'package:halal_mobile_app/api/api.dart';
 import 'package:halal_mobile_app/features/items_overview/bloc/items_overview_bloc.dart';
 import 'package:halal_mobile_app/features/items_overview/widgets/logo_bar.dart';
 import 'package:halal_mobile_app/features/items_overview/widgets/search_bar.dart';
+import 'package:halal_mobile_app/logger/logger.dart';
 import 'package:halal_mobile_app/repositories/item_repository.dart';
 import 'package:halal_mobile_app/features/items_overview/widgets/bottom_loader.dart';
 import 'package:halal_mobile_app/features/items_overview/widgets/food_additive_tile.dart';
@@ -50,8 +51,6 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView> {
           case ItemsOverviewStatus.initial:
             return const CircularProgressIndicator();
           case ItemsOverviewStatus.loading:
-            // TODO: No need in this state
-            return const CircularProgressIndicator();
           case ItemsOverviewStatus.success:
             if (state.items.isEmpty) {
               return const Text('no items');
@@ -60,63 +59,79 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView> {
               child: Scaffold(
                 body: DefaultTabController(
                   length: 4,
-                  child: CustomScrollView(
+                  child: NestedScrollView(
                     controller: _scrollController,
-                    slivers: [
-                      SliverAppBar(
-                        automaticallyImplyLeading: false,
-                        titleSpacing: 0,
-                        toolbarHeight: 70,
-                        backgroundColor: Theme.of(context).primaryColor,
-                        title: LogoBar(onSettingsPressed: () {}),
-                      ),
-                      SliverAppBar(
-                        pinned: true,
-                        toolbarHeight: 68,
-                        automaticallyImplyLeading: false,
-                        titleSpacing: 0,
-                        backgroundColor: Theme.of(context).primaryColor,
-                        title: SearchBar(),
-                      ),
-                      SliverAppBar(
-                        automaticallyImplyLeading: false,
-                        backgroundColor: Colors.white,
-                        toolbarHeight: 0,
-                        bottom: TabBar(
-                          indicatorColor: Colors.black,
-                          indicatorSize: TabBarIndicatorSize.label,
-                          labelStyle: TextStyle(fontSize: 18),
-                          labelPadding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                          ),
-                          padding: EdgeInsets.only(
-                            right: 10,
-                          ),
-                          unselectedLabelColor: Colors.black38,
-                          tabs: [
-                            Text(AppLocale.of(context).all),
-                            Text(AppLocale.of(context).products),
-                            Text(AppLocale.of(context).additives),
-                            Text(AppLocale.of(context).drugs),
-                          ],
+                    headerSliverBuilder: (
+                      BuildContext context,
+                      bool innerBoxIsScrolled,
+                    ) {
+                      return [
+                        SliverAppBar(
+                          automaticallyImplyLeading: false,
+                          titleSpacing: 0,
+                          toolbarHeight: 70,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          title: LogoBar(onSettingsPressed: () {}),
                         ),
-                      ),
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          childCount: state.hasReachedMax
-                              ? state.items.length
-                              : state.items.length + 1,
-                          (_, index) {
-                            return index >= state.items.length
-                                ? const BottomLoader()
-                                : FoodAdditiveTile(
-                                    foodAdditive:
-                                        state.items[index] as FoodAdditive,
-                                  );
-                          },
+                        SliverAppBar(
+                          pinned: true,
+                          toolbarHeight: 68,
+                          automaticallyImplyLeading: false,
+                          titleSpacing: 0,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          title: SearchBar(),
                         ),
-                      ),
-                    ],
+                        SliverAppBar(
+                          automaticallyImplyLeading: false,
+                          backgroundColor: Colors.white,
+                          toolbarHeight: 0,
+                          bottom: TabBar(
+                            indicatorColor: Colors.black,
+                            indicatorSize: TabBarIndicatorSize.label,
+                            labelStyle: TextStyle(fontSize: 18),
+                            labelPadding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                            ),
+                            padding: EdgeInsets.only(
+                              right: 10,
+                            ),
+                            unselectedLabelColor: Colors.black38,
+                            tabs: [
+                              Text(AppLocale.of(context).all),
+                              Text(AppLocale.of(context).products),
+                              Text(AppLocale.of(context).additives),
+                              Text(AppLocale.of(context).drugs),
+                            ],
+                          ),
+                        ),
+                      ];
+                    },
+                    body: TabBarView(
+                      children: [0, 1, 2, 3]
+                          .map(
+                            (e) => CustomScrollView(
+                              // controller: _scrollController,
+                              slivers: [
+                                SliverList(
+                                  delegate: SliverChildBuilderDelegate(
+                                    childCount: state.hasReachedMax
+                                        ? state.items.length
+                                        : state.items.length + 1,
+                                    (_, index) {
+                                      return index >= state.items.length
+                                          ? const BottomLoader()
+                                          : FoodAdditiveTile(
+                                              foodAdditive: state.items[index]
+                                                  as FoodAdditive,
+                                            );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                          .toList(),
+                    ),
                   ),
                 ),
               ),
@@ -135,6 +150,7 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView> {
   }
 
   void _onScroll() {
+    // logger.i('OnScroll: _isBottom == ${_isBottom}');
     if (_isBottom) {
       context
           .read<ItemsOverviewBloc>()
@@ -146,6 +162,7 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView> {
     if (!_scrollController.hasClients) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.9);
+    // logger.i('maxScroll==$maxScroll, currentScroll==$currentScroll');
+    return currentScroll >= (maxScroll * 0.75);
   }
 }

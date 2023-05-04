@@ -12,8 +12,8 @@ class ItemRepository {
   Future<List<Item>> getItems({int offset= 0, int limit = 15}) async {
     // final foodAdditives = await _foodAdditiveApi.getFoodAdditives(offset: offset, limit: limit) ?? [];
     final foodAdditives = [FoodAdditive(id: 1, name: 'Name1', permissiveness: Permissiveness.halal, description: 'Description1', eNumber: 'E123', imageSource: 'https://mpmart.ru/upload/medialibrary/ebc/ebc5295f6b848a6456006d15a41523ac.jpg'),
-      FoodAdditive(id: 2, name: 'Name2', permissiveness: Permissiveness.halal, description: 'Description1', eNumber: 'E123'),
-      FoodAdditive(id: 3, name: 'Name3', permissiveness: Permissiveness.halal, description: 'Description1', eNumber: 'E123'),
+      FoodAdditive(id: 2, name: 'Name2', permissiveness: Permissiveness.haram, description: 'Description1', eNumber: 'E123'),
+      FoodAdditive(id: 3, name: 'Name3', permissiveness: Permissiveness.doubtful, description: 'Description1', eNumber: 'E123'),
       FoodAdditive(id: 4, name: 'Name4', permissiveness: Permissiveness.halal, description: 'Description1', eNumber: 'E123'),
       FoodAdditive(id: 5, name: 'Name5', permissiveness: Permissiveness.halal, description: 'Description1', eNumber: 'E123'),
       FoodAdditive(id: 6, name: 'Name6', permissiveness: Permissiveness.halal, description: 'Description1', eNumber: 'E123'),
