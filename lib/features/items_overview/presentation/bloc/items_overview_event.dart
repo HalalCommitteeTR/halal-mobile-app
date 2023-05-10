@@ -13,12 +13,19 @@ class ItemsOverviewSubscriptionRequested extends ItemsOverviewEvent {
 }
 
 class ItemsOverviewFilterChanged extends ItemsOverviewEvent {
-  const ItemsOverviewFilterChanged(this.filter);
+  const ItemsOverviewFilterChanged(
+      {
+    required this.filter,
+    required this.permissivenessFilter,
+    required this.orderBy,
+  });
 
   final ItemsViewFilter filter;
+  final Set<Permissiveness> permissivenessFilter;
+  final OrderBy orderBy;
 
   @override
-  List<Object> get props => [filter];
+  List<Object> get props => [filter, permissivenessFilter, orderBy,];
 }
 
 

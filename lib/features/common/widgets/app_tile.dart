@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ItemTile extends StatefulWidget {
-  const ItemTile({
+class AppTile extends StatefulWidget {
+  const AppTile({
     Key? key,
     this.leading,
     required this.title,
@@ -21,16 +21,17 @@ class ItemTile extends StatefulWidget {
   final Color? borderColor;
 
   @override
-  State<ItemTile> createState() => _ItemTileState();
+  State<AppTile> createState() => _AppTileState();
 }
 
-class _ItemTileState extends State<ItemTile> {
+class _AppTileState extends State<AppTile> {
   bool _expanded = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      padding: widget.subtitle == null ? const EdgeInsets.symmetric(vertical: 8,) : null,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: const [

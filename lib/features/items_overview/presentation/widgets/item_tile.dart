@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'package:halal_mobile_app/features/items_overview/widgets/permissiveness_badge.dart';
-import 'package:halal_mobile_app/api/models/food_additive/food_additive.dart';
-import 'package:halal_mobile_app/features/common/widgets/item_tile.dart';
+import 'package:halal_mobile_app/features/common/widgets/app_tile.dart';
+import 'package:halal_mobile_app/features/items_overview/domain/entities/item.dart';
+import 'package:halal_mobile_app/features/items_overview/domain/entities/permissiveness.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/widgets/permissiveness_badge.dart';
 
-class FoodAdditiveTile extends StatelessWidget {
-  const FoodAdditiveTile({
+class ItemTile extends StatelessWidget {
+  const ItemTile({
     Key? key,
-    required this.foodAdditive,
+    required this.item,
   }) : super(key: key);
-  final FoodAdditive foodAdditive;
+  final Item item;
 
   Color get _borderColor {
-    switch (foodAdditive.permissiveness) {
+    switch (item.permissiveness) {
       case Permissiveness.halal:
         return const Color(0xFF1CB555);
       case Permissiveness.haram:
@@ -24,10 +25,10 @@ class FoodAdditiveTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ItemTile(
-      title: Text(foodAdditive.name),
+    return AppTile(
+      title: Text(item.name),
       subtitle:
-      foodAdditive.eNumber != null ? Text(foodAdditive.eNumber!) : null,
+      item is FoodAdditive ? Text((item as FoodAdditive).eNumber) : null,
       // leading: Image.network(
       //   foodAdditive.imageSource ?? '',
       //   errorBuilder: (context, _, __) =>
@@ -35,12 +36,12 @@ class FoodAdditiveTile extends StatelessWidget {
       // ),
       leading: const Icon(Icons.emoji_food_beverage_rounded),
       trailing: PermissivenessBadge(
-        permissiveness: foodAdditive.permissiveness,
+        permissiveness: item.permissiveness,
       ),
-      description: foodAdditive.description != null
+      description: item.description != null
           ? Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Text(foodAdditive.description!),
+            child: Text(item.description!),
           )
           : null,
       borderColor: _borderColor,

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:halal_mobile_app/api/api.dart';
 
-import '../app_locale.dart';
+import 'package:halal_mobile_app/app_locale.dart';
+
+import 'package:halal_mobile_app/features/items_overview/domain/entities/permissiveness.dart';
 
 class HalalAppTheme {
   static Color textColor(Permissiveness permissiveness) {

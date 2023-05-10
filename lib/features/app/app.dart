@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:halal_mobile_app/app_locale.dart';
-import 'package:halal_mobile_app/repositories/item_repository.dart';
 import 'package:halal_mobile_app/features/home/home.dart';
 import 'package:halal_mobile_app/theme/halal_app_theme.dart';
+
+import 'package:halal_mobile_app/features/items_overview/domain/repositories/item_repository.dart';
+
+import '../items_overview/presentation/bloc/items_overview_bloc.dart';
 
 class App extends StatelessWidget {
   const App({super.key, required this.itemRepository});
@@ -15,7 +18,12 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: itemRepository,
-      child: const AppView(),
+      child: BlocProvider(
+        create: (_) => ItemsOverviewBloc(
+          itemRepository: itemRepository,
+        ),
+        child: const AppView(),
+      ),
     );
   }
 }

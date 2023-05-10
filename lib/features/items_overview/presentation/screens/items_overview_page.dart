@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:halal_mobile_app/api/api.dart';
-import 'package:halal_mobile_app/features/items_overview/bloc/items_overview_bloc.dart';
-import 'package:halal_mobile_app/features/items_overview/widgets/logo_bar.dart';
-import 'package:halal_mobile_app/features/items_overview/widgets/search_bar.dart';
-import 'package:halal_mobile_app/logger/logger.dart';
-import 'package:halal_mobile_app/repositories/item_repository.dart';
-import 'package:halal_mobile_app/features/items_overview/widgets/bottom_loader.dart';
-import 'package:halal_mobile_app/features/items_overview/widgets/food_additive_tile.dart';
 import 'package:halal_mobile_app/app_locale.dart';
+import 'package:halal_mobile_app/features/items_overview/domain/entities/items_view_filter.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/bloc/items_overview_bloc.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/widgets/bottom_loader.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/widgets/item_tile.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/widgets/logo_bar.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/widgets/search_bar.dart';
 
 class ItemsOverviewPage extends StatelessWidget {
   const ItemsOverviewPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ItemsOverviewBloc(
-        itemRepository: context.read<ItemRepository>(),
-      )..add(const ItemsOverviewSubscriptionRequested()),
-      child: const ItemsOverviewView(),
-    );
+    return const ItemsOverviewView();
   }
 }
 
@@ -32,13 +25,20 @@ class ItemsOverviewView extends StatefulWidget {
   State<ItemsOverviewView> createState() => _ItemsOverviewViewState();
 }
 
-class _ItemsOverviewViewState extends State<ItemsOverviewView> {
+class _ItemsOverviewViewState extends State<ItemsOverviewView>
+    with SingleTickerProviderStateMixin {
   final _scrollController = ScrollController();
+  late final TabController _tabController = TabController(
+    length: 4,
+    vsync: this,
+  );
 
   @override
   void initState() {
     super.initState();
+    context.read<ItemsOverviewBloc>().add(ItemsOverviewSubscriptionRequested());
     _scrollController.addListener(_onScroll);
+    _tabController.addListener(_onTabChanged);
   }
 
   @override
@@ -86,6 +86,7 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView> {
                           backgroundColor: Colors.white,
                           toolbarHeight: 0,
                           bottom: TabBar(
+                            controller: _tabController,
                             indicatorColor: Colors.black,
                             indicatorSize: TabBarIndicatorSize.label,
                             labelStyle: TextStyle(fontSize: 18),
@@ -107,30 +108,30 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView> {
                       ];
                     },
                     body: TabBarView(
-                      children: [0, 1, 2, 3]
-                          .map(
-                            (e) => CustomScrollView(
-                              // controller: _scrollController,
-                              slivers: [
-                                SliverList(
-                                  delegate: SliverChildBuilderDelegate(
-                                    childCount: state.hasReachedMax
-                                        ? state.items.length
-                                        : state.items.length + 1,
-                                    (_, index) {
-                                      return index >= state.items.length
-                                          ? const BottomLoader()
-                                          : FoodAdditiveTile(
-                                              foodAdditive: state.items[index]
-                                                  as FoodAdditive,
-                                            );
-                                    },
-                                  ),
+                      controller: _tabController,
+                      children: [0, 1, 2, 3].map(
+                        (e) {
+                          return CustomScrollView(
+                            // controller: _scrollController,
+                            slivers: [
+                              SliverList(
+                                delegate: SliverChildBuilderDelegate(
+                                  childCount: state.hasReachedMax
+                                      ? state.filteredItems.length
+                                      : state.filteredItems.length + 1,
+                                  (_, index) {
+                                    return index >= state.filteredItems.length
+                                        ? const BottomLoader()
+                                        : ItemTile(
+                                            item: state.filteredItems[index],
+                                          );
+                                  },
                                 ),
-                              ],
-                            ),
-                          )
-                          .toList(),
+                              ),
+                            ],
+                          );
+                        },
+                      ).toList(),
                     ),
                   ),
                 ),
@@ -146,11 +147,24 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
+    _tabController
+      ..removeListener(_onTabChanged)
+      ..dispose();
     super.dispose();
   }
 
+  void _onTabChanged() {
+    final state = context.read<ItemsOverviewBloc>().state;
+    if (true) {
+      context.read<ItemsOverviewBloc>().add(ItemsOverviewFilterChanged(
+            filter: ItemsViewFilter.values[_tabController.index],
+            permissivenessFilter: state.permissivenessFilter,
+            orderBy: state.orderBy,
+          ));
+    }
+  }
+
   void _onScroll() {
-    // logger.i('OnScroll: _isBottom == ${_isBottom}');
     if (_isBottom) {
       context
           .read<ItemsOverviewBloc>()
@@ -162,7 +176,6 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView> {
     if (!_scrollController.hasClients) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
-    // logger.i('maxScroll==$maxScroll, currentScroll==$currentScroll');
     return currentScroll >= (maxScroll * 0.75);
   }
 }

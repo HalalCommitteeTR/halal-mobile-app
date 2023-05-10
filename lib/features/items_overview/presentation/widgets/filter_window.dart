@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:halal_mobile_app/api/api.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:halal_mobile_app/app_locale.dart';
-import 'package:halal_mobile_app/features/items_overview/widgets/permissiveness_badge.dart';
-import 'package:halal_mobile_app/theme/halal_app_theme.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/widgets/permissiveness_badge.dart';
+import 'package:halal_mobile_app/features/items_overview/domain/entities/order_by.dart';
+import 'package:halal_mobile_app/features/items_overview/domain/entities/permissiveness.dart';
+
+import 'package:halal_mobile_app/features/items_overview/presentation/bloc/items_overview_bloc.dart';
 
 class FilterWindow extends StatefulWidget {
   const FilterWindow({Key? key}) : super(key: key);
@@ -13,7 +17,15 @@ class FilterWindow extends StatefulWidget {
 
 class _FilterWindowState extends State<FilterWindow> {
   OrderBy orderBy = OrderBy.none;
-  Set<Permissiveness> filterPermissiveness = {};
+  Set<Permissiveness> permissivenessFilter = {};
+  
+  @override
+  void initState() {
+    super.initState();
+    final state = context.read<ItemsOverviewBloc>().state;
+    orderBy = state.orderBy;
+    permissivenessFilter = Set.of(state.permissivenessFilter);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,15 +85,15 @@ class _FilterWindowState extends State<FilterWindow> {
             permissiveness: Permissiveness.halal,
             onSelected: (value) {
               if (value) {
-                filterPermissiveness.add(
+                permissivenessFilter.add(
                   Permissiveness.halal,
                 );
-              } else if (filterPermissiveness.contains(Permissiveness.halal)) {
-                filterPermissiveness.remove(Permissiveness.halal);
+              } else if (permissivenessFilter.contains(Permissiveness.halal)) {
+                permissivenessFilter.remove(Permissiveness.halal);
               }
               setState(() {});
             },
-            selected: filterPermissiveness.contains(Permissiveness.halal),
+            selected: permissivenessFilter.contains(Permissiveness.halal),
           ),
           SizedBox(
             height: 5,
@@ -90,15 +102,15 @@ class _FilterWindowState extends State<FilterWindow> {
             permissiveness: Permissiveness.haram,
             onSelected: (value) {
               if (value) {
-                filterPermissiveness.add(
+                permissivenessFilter.add(
                   Permissiveness.haram,
                 );
-              } else if (filterPermissiveness.contains(Permissiveness.haram)) {
-                filterPermissiveness.remove(Permissiveness.haram);
+              } else if (permissivenessFilter.contains(Permissiveness.haram)) {
+                permissivenessFilter.remove(Permissiveness.haram);
               }
               setState(() {});
             },
-            selected: filterPermissiveness.contains(Permissiveness.haram),
+            selected: permissivenessFilter.contains(Permissiveness.haram),
           ),
           SizedBox(
             height: 5,
@@ -107,36 +119,43 @@ class _FilterWindowState extends State<FilterWindow> {
             permissiveness: Permissiveness.doubtful,
             onSelected: (value) {
               if (value) {
-                filterPermissiveness.add(
+                permissivenessFilter.add(
                   Permissiveness.doubtful,
                 );
-              } else if (filterPermissiveness
+              } else if (permissivenessFilter
                   .contains(Permissiveness.doubtful)) {
-                filterPermissiveness.remove(Permissiveness.doubtful);
+                permissivenessFilter.remove(Permissiveness.doubtful);
               }
               setState(() {});
             },
-            selected: filterPermissiveness.contains(Permissiveness.doubtful),
+            selected: permissivenessFilter.contains(Permissiveness.doubtful),
           ),
           Row(
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context
+                      .read<ItemsOverviewBloc>()
+                      .add(ItemsOverviewFilterChanged(
+                        filter: context
+                            .read<ItemsOverviewBloc>()
+                            .state
+                            .itemsViewFilter,
+                        permissivenessFilter: permissivenessFilter,
+                        orderBy: orderBy,
+                      ));
+                  Navigator.of(context).pop();
+                },
                 child: Text('Ok'),
               ),
               ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text('Cancel')),
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text('Cancel'),
+              ),
             ],
           ),
         ],
       ),
     );
   }
-}
-
-enum OrderBy {
-  alphabetic,
-  alphabeticReversed,
-  none,
 }
