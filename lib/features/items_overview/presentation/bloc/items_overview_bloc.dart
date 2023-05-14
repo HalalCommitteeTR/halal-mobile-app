@@ -35,10 +35,7 @@ class ItemsOverviewBloc extends Bloc<ItemsOverviewEvent, ItemsOverviewState> {
     if (state.hasReachedMax) return;
     try {
       if (state.status == ItemsOverviewStatus.loading) return;
-      // emit(state.copyWith(status: () => ItemsOverviewStatus.loading));
-
       if (state.status == ItemsOverviewStatus.initial) {
-        // emit(state.copyWith(status: () => ItemsOverviewStatus.loading));
         final items = await itemRepository.getItems();
         return emit(
           state.copyWith(

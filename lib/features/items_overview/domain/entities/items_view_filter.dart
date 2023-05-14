@@ -1,7 +1,7 @@
 
 import 'package:halal_mobile_app/features/items_overview/domain/entities/item.dart';
 
-enum ItemsViewFilter { all, foodAdditives, ingredients, drugs, }
+enum ItemsViewFilter { all, ingredients, foodAdditives,  drugs, }
 
 extension ItemsViewFilterX on ItemsViewFilter {
   bool apply(Item item) {

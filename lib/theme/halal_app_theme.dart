@@ -49,6 +49,9 @@ class HalalAppTheme {
   static const halalTextColor = Color.fromRGBO(17, 109, 51, 0.6);
   static const haramTextColor = Color.fromRGBO(109, 20, 16, 0.6);
   static const doubtfulTextColor = Color.fromRGBO(17, 46, 82, 0.6);
+  static const cuisineTypeChipBackgroundColor = Color.fromRGBO(110, 106, 22, 0.1);
+  static const cuisineTypeChipTextColor = Color.fromRGBO(110, 106, 22, 0.6);
+  static const mainTextColor = Color.fromRGBO(24, 27, 34, 1);
 
   static ThemeData get light {
     return ThemeData(

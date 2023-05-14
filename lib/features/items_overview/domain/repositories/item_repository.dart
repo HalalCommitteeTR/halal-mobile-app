@@ -5,24 +5,24 @@ import 'package:halal_mobile_app/features/items_overview/domain/entities/order_b
 
 abstract class ItemRepository {
   Future<List<FoodAdditive>> getFoodAdditives({
-    int offset = 0,
-    int limit = 15,
+    int? offset,
+    int? limit,
     Permissiveness? permissiveness,
     String? like,
     OrderBy? orderBy,
   });
 
   Future<List<Ingredient>> getIngredients({
-    int offset = 0,
-    int limit = 15,
+    int? offset,
+    int? limit,
     Permissiveness? permissiveness,
     String? like,
     OrderBy? orderBy,
   });
 
   Future<List<Item>> getItems({
-    int offset = 0,
-    int limit = 15,
+    int? offset,
+    int? limit,
     Permissiveness? permissiveness,
     String? like,
     OrderBy? orderBy,

@@ -7,8 +7,8 @@ abstract class ItemDataSource {
   const ItemDataSource();
 
   Future<List<FoodAdditive>?> getFoodAdditives({
-    int offset = 0,
-    int limit = 15,
+    int? offset,
+    int? limit,
     Permissiveness? permissiveness,
     String? like,
     OrderBy? orderBy,
@@ -17,8 +17,8 @@ abstract class ItemDataSource {
   Future<FoodAdditive?> getFoodAdditive(int id);
 
   Future<List<Ingredient>?> getIngredients({
-    int offset = 0,
-    int limit = 15,
+    int? offset,
+    int? limit,
     Permissiveness? permissiveness,
     String? like,
     OrderBy? orderBy,

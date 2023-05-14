@@ -49,11 +49,11 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView>
           case ItemsOverviewStatus.failure:
             return const Text('Fail to load items');
           case ItemsOverviewStatus.initial:
-            return const CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor,),);
           case ItemsOverviewStatus.loading:
           case ItemsOverviewStatus.success:
             if (state.items.isEmpty) {
-              return const Text('no items');
+              return Center(child: const Text('No items'));
             }
             return SafeArea(
               child: Scaffold(

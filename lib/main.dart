@@ -6,6 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'package:halal_mobile_app/features/app/app.dart';
+import 'package:halal_mobile_app/features/caterings/data/data_sources/http_catering_data_source.dart';
+import 'package:halal_mobile_app/features/caterings/domain/repositories/catering_repository_impl.dart';
 import 'package:halal_mobile_app/features/items_overview/data/repositories/item_repository_mock.dart';
 import 'package:halal_mobile_app/simple_bloc_observer.dart';
 import 'package:halal_mobile_app/firebase_options.dart';
@@ -26,10 +28,14 @@ Future<void> main() async {
 
   Bloc.observer = SimpleBlocObserver();
   final httpItemDataSource = HttpItemDataSource();
+  final httpCateringDataSource = HttpCateringDataSource();
   runApp(
     App(
-      itemRepository: ItemRepositoryMock(),
-      // ItemRepositoryImpl(itemDataSource: httpItemDataSource),
+      itemRepository: //ItemRepositoryMock(),
+          ItemRepositoryImpl(itemDataSource: httpItemDataSource),
+      cateringRepository: CateringRepositoryImpl(
+        cateringDataSource: httpCateringDataSource,
+      ),
     ),
   );
 }

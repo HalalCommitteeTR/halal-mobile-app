@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:halal_mobile_app/features/caterings/presentation/screens/caterings_overview_page.dart';
 
 import 'package:halal_mobile_app/features/caterings/view/caterings_page.dart';
 import 'package:halal_mobile_app/features/home/cubit/home_cubit.dart';
@@ -33,7 +34,7 @@ class HomeView extends StatelessWidget {
         index: selectedTab.index,
         children: const [
           ItemsOverviewPage(),
-          CateringsPage(),
+          CateringsOverviewPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

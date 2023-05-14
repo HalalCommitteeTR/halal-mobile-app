@@ -14,7 +14,7 @@ class HttpItemDataSource extends ItemDataSource {
   final http.Client _client;
 
   // TODO - fill base url
-  static const _baseUrl = 'http://84.201.184.214:5000/api/v1';
+  static const _baseUrl = 'http://84.201.184.214/api/v1';
 
   @override
   Future<FoodAdditive?> getFoodAdditive(int id) async {
@@ -29,15 +29,15 @@ class HttpItemDataSource extends ItemDataSource {
 
   @override
   Future<List<FoodAdditive>?> getFoodAdditives({
-    int offset = 0,
-    int limit = 15,
+    int? offset,
+    int? limit,
     Permissiveness? permissiveness,
     String? like,
     OrderBy? orderBy,
   }) async {
     final queryParameters = {
-      'offset': '$offset',
-      'limit': '$limit',
+      if (offset != null) 'offset': '$offset',
+      if (limit != null) 'limit': '$limit',
       // TODO - permissiveness is a multivalued parameter
       if (permissiveness != null) 'permissiveness': '$permissiveness',
       if (like != null) 'like': '$like',
@@ -74,15 +74,15 @@ class HttpItemDataSource extends ItemDataSource {
 
   @override
   Future<List<Ingredient>?> getIngredients({
-    int offset = 0,
-    int limit = 15,
+    int? offset,
+    int? limit,
     Permissiveness? permissiveness,
     String? like,
     OrderBy? orderBy,
   }) async {
     final queryParameters = {
-      'offset': '$offset',
-      'limit': '$limit',
+      if (offset != null) 'offset': '$offset',
+      if (limit != null) 'limit': '$limit',
       // TODO - permissiveness is a multivalued parameter
       if (permissiveness != null) 'permissiveness': '$permissiveness',
       if (like != null) 'like': '$like',

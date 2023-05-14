@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:halal_mobile_app/features/common/widgets/container_app_tile.dart';
+import 'package:halal_mobile_app/features/common/widgets/container_leading.dart';
+import 'package:halal_mobile_app/theme/halal_app_theme.dart';
 
 class AppTile extends StatefulWidget {
   const AppTile({
@@ -29,58 +32,25 @@ class _AppTileState extends State<AppTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+    return ContainerAppTile(
       padding: widget.subtitle == null ? const EdgeInsets.symmetric(vertical: 8,) : null,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-            color: Color.fromRGBO(119, 211, 153, 0.05),
-            blurRadius: 10,
-            spreadRadius: 0,
-          ),
-          BoxShadow(
-            color: Color.fromRGBO(119, 211, 153, 0.1),
-            blurRadius: 50,
-            spreadRadius: 0,
-          ),
-        ],
-        gradient: widget.borderColor != null
-            ? LinearGradient(
-                stops: const [1 / 69, 1 / 69],
-                colors: [widget.borderColor!, Colors.white],
-              )
-            : null,
-        borderRadius: BorderRadius.circular(10),
-      ),
+      gradient: widget.borderColor != null
+          ? LinearGradient(
+        stops: const [1 / 69, 1 / 69],
+        colors: [widget.borderColor!, Colors.white],
+      )
+          : null,
       child: ExpansionTile(
         leading: widget.leading != null
-            ? Container(
-                height: double.infinity,
-                width: double.infinity,
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.1),
-                      offset: Offset(0, 0),
-                      blurRadius: 10,
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                constraints: const BoxConstraints.tightFor(
-                  height: 50,
-                  width: 50,
-                ),
+            ? ContainerLeading(
                 child: widget.leading,
               )
             : null,
         title: widget.title,
         subtitle: widget.subtitle,
         trailing: widget.trailing,
+        textColor: HalalAppTheme.mainTextColor,
+
         children: [
           SizedBox(
             height: 15,
