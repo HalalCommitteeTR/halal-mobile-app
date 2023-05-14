@@ -9,6 +9,8 @@ import 'package:halal_mobile_app/features/items_overview/presentation/widgets/it
 import 'package:halal_mobile_app/features/items_overview/presentation/widgets/logo_bar.dart';
 import 'package:halal_mobile_app/features/items_overview/presentation/widgets/search_bar.dart';
 
+import '../../../settings/settings.dart';
+
 class ItemsOverviewPage extends StatelessWidget {
   const ItemsOverviewPage({Key? key}) : super(key: key);
 
@@ -71,7 +73,15 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView>
                           titleSpacing: 0,
                           toolbarHeight: 70,
                           backgroundColor: Theme.of(context).primaryColor,
-                          title: LogoBar(onSettingsPressed: () {}),
+                          title: LogoBar(
+                            onSettingsPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => SettingsPage(),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                         SliverAppBar(
                           pinned: true,

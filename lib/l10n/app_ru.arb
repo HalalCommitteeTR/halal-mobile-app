@@ -32,5 +32,9 @@
   "quickServiceRestaurant": "Ресторан быстрого питания",
   "gasStation": "Заправка",
   "halalStore": "Халяльный магазин",
-  "prayerRoom": "Молельная комната"
+  "prayerRoom": "Молельная комната",
+  "darkTheme": "Темная тема",
+  "aboutTeam": "О разработчиках",
+  "contact": "Обратная связь",
+  "fontSize": "Размер шрифта"
 }

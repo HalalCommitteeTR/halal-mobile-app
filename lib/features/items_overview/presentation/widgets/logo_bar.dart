@@ -8,9 +8,11 @@ class LogoBar extends StatelessWidget {
   const LogoBar({
     Key? key,
     required this.onSettingsPressed,
+    this.actionAsset = 'assets/icons/settings-icon.svg',
   }) : super(key: key);
 
   final void Function() onSettingsPressed;
+  final String actionAsset;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class LogoBar extends StatelessWidget {
           ),
           IconButton(
             onPressed: onSettingsPressed,
-            icon: SvgPicture.asset('assets/icons/settings-icon.svg'),
+            icon: SvgPicture.asset(actionAsset),
           ),
         ],
       ),
