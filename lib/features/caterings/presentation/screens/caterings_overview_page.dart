@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:halal_mobile_app/features/items_overview/presentation/widgets/bottom_loader.dart';
 import 'package:halal_mobile_app/features/items_overview/presentation/widgets/logo_bar.dart';
-import 'package:halal_mobile_app/features/items_overview/presentation/widgets/search_bar.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/widgets/halal_search_bar.dart';
 import 'package:halal_mobile_app/features/caterings/presentation/blocs/catering_bloc.dart';
 import 'package:halal_mobile_app/features/caterings/presentation/widgets/catering_tile.dart';
 
@@ -74,7 +74,7 @@ class _CateringsOverviewViewState extends State<CateringsOverviewView>
                         automaticallyImplyLeading: false,
                         titleSpacing: 0,
                         backgroundColor: Theme.of(context).primaryColor,
-                        title: SearchBar(),
+                        title: HalalSearchBar(),
                       ),
                     ];
                   },

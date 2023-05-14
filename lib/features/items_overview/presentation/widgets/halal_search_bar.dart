@@ -4,16 +4,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:halal_mobile_app/app_locale.dart';
 import 'package:halal_mobile_app/halal_icons.dart';
 
-import 'filter_window.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/widgets/filter_window.dart';
 
-class SearchBar extends StatefulWidget {
-  const SearchBar({Key? key}) : super(key: key);
+class HalalSearchBar extends StatefulWidget {
+  const HalalSearchBar({Key? key}) : super(key: key);
 
   @override
-  State<SearchBar> createState() => _SearchBarState();
+  State<HalalSearchBar> createState() => _HalalSearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _HalalSearchBarState extends State<HalalSearchBar> {
   // TODO - callback to make a search
   @override
   Widget build(BuildContext context) {

@@ -7,7 +7,7 @@ import 'package:halal_mobile_app/features/items_overview/presentation/bloc/items
 import 'package:halal_mobile_app/features/items_overview/presentation/widgets/bottom_loader.dart';
 import 'package:halal_mobile_app/features/items_overview/presentation/widgets/item_tile.dart';
 import 'package:halal_mobile_app/features/items_overview/presentation/widgets/logo_bar.dart';
-import 'package:halal_mobile_app/features/items_overview/presentation/widgets/search_bar.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/widgets/halal_search_bar.dart';
 
 import '../../../settings/settings.dart';
 
@@ -89,7 +89,7 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView>
                           automaticallyImplyLeading: false,
                           titleSpacing: 0,
                           backgroundColor: Theme.of(context).primaryColor,
-                          title: SearchBar(),
+                          title: HalalSearchBar(),
                         ),
                         SliverAppBar(
                           automaticallyImplyLeading: false,
