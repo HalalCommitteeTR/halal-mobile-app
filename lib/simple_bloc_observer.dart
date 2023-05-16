@@ -10,7 +10,7 @@ class SimpleBlocObserver extends BlocObserver {
       Transition transition,
       ) {
     super.onTransition(bloc, transition);
-    logger.v(transition);
+    logger.v(transition.event);
   }
 
   @override

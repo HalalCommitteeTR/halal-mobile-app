@@ -12,6 +12,7 @@ class ItemsOverviewState extends Equatable {
     },
     this.orderBy = OrderBy.none,
     this.hasReachedMax = false,
+    this.searchString = '',
   });
 
   final ItemsOverviewStatus status;
@@ -21,6 +22,7 @@ class ItemsOverviewState extends Equatable {
   final Set<Permissiveness> permissivenessFilter;
   final OrderBy orderBy;
   final bool hasReachedMax;
+  final String searchString;
 
   List<Item> get filteredItems {
     return items.where((element) {
@@ -37,6 +39,7 @@ class ItemsOverviewState extends Equatable {
     Set<Permissiveness>? permissivenessFilter,
     OrderBy? orderBy,
     bool? hasReachedMax,
+    String? searchString,
   }) {
     return ItemsOverviewState(
       status: status != null ? status : this.status,
@@ -47,6 +50,7 @@ class ItemsOverviewState extends Equatable {
           : this.permissivenessFilter,
       orderBy: orderBy != null ? orderBy : this.orderBy,
       hasReachedMax: hasReachedMax != null ? hasReachedMax : this.hasReachedMax,
+      searchString: searchString ?? this.searchString,
     );
   }
 
@@ -58,6 +62,7 @@ class ItemsOverviewState extends Equatable {
         hasReachedMax,
         permissivenessFilter,
         orderBy,
+        searchString,
       ];
 }
 

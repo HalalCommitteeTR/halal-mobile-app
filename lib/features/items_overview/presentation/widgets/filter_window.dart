@@ -7,6 +7,7 @@ import 'package:halal_mobile_app/features/items_overview/domain/entities/order_b
 import 'package:halal_mobile_app/features/items_overview/domain/entities/permissiveness.dart';
 
 import 'package:halal_mobile_app/features/items_overview/presentation/bloc/items_overview_bloc.dart';
+import 'package:halal_mobile_app/logger/logger.dart';
 
 class FilterWindow extends StatefulWidget {
   const FilterWindow({Key? key}) : super(key: key);
@@ -27,8 +28,23 @@ class _FilterWindowState extends State<FilterWindow> {
     permissivenessFilter = Set.of(state.permissivenessFilter);
   }
 
+  void _changeFilter(BuildContext context) {
+    logger.i('permissiveness filter: ${permissivenessFilter}');
+    context
+        .read<ItemsOverviewBloc>()
+        .add(ItemsOverviewFilterChanged(
+      filter: context
+          .read<ItemsOverviewBloc>()
+          .state
+          .itemsViewFilter,
+      permissivenessFilter: Set.of(permissivenessFilter),
+      orderBy: orderBy,
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(
@@ -52,6 +68,7 @@ class _FilterWindowState extends State<FilterWindow> {
                       orderBy = OrderBy.none;
                     });
                   }
+                  _changeFilter(context);
                 },
                 selected: orderBy == OrderBy.alphabetic,
               ),
@@ -72,12 +89,14 @@ class _FilterWindowState extends State<FilterWindow> {
                       orderBy = OrderBy.none;
                     });
                   }
+                  _changeFilter(context);
                 },
                 selected: orderBy == OrderBy.alphabeticReversed,
               ),
             ],
           ),
-          Text(AppLocale.of(context).filter),
+          SizedBox(height: 15,),
+          Text(AppLocale.of(context).filter + ':'),
           SizedBox(
             height: 15,
           ),
@@ -91,6 +110,7 @@ class _FilterWindowState extends State<FilterWindow> {
               } else if (permissivenessFilter.contains(Permissiveness.halal)) {
                 permissivenessFilter.remove(Permissiveness.halal);
               }
+              _changeFilter(context);
               setState(() {});
             },
             selected: permissivenessFilter.contains(Permissiveness.halal),
@@ -109,6 +129,7 @@ class _FilterWindowState extends State<FilterWindow> {
                 permissivenessFilter.remove(Permissiveness.haram);
               }
               setState(() {});
+              _changeFilter(context);
             },
             selected: permissivenessFilter.contains(Permissiveness.haram),
           ),
@@ -127,33 +148,26 @@ class _FilterWindowState extends State<FilterWindow> {
                 permissivenessFilter.remove(Permissiveness.doubtful);
               }
               setState(() {});
+              _changeFilter(context);
             },
             selected: permissivenessFilter.contains(Permissiveness.doubtful),
           ),
-          Row(
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  context
-                      .read<ItemsOverviewBloc>()
-                      .add(ItemsOverviewFilterChanged(
-                        filter: context
-                            .read<ItemsOverviewBloc>()
-                            .state
-                            .itemsViewFilter,
-                        permissivenessFilter: permissivenessFilter,
-                        orderBy: orderBy,
-                      ));
-                  Navigator.of(context).pop();
-                },
-                child: Text('Ok'),
-              ),
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text('Cancel'),
-              ),
-            ],
-          ),
+          SizedBox(height: 15,),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //   children: [
+          //     ElevatedButton(
+          //       onPressed: () {
+          //         Navigator.of(context).pop();
+          //       },
+          //       child: Text('Ok'),
+          //     ),
+          //     ElevatedButton(
+          //       onPressed: () => Navigator.of(context).pop(),
+          //       child: Text('Cancel'),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );

@@ -1,6 +1,5 @@
 part of 'items_overview_bloc.dart';
 
-
 abstract class ItemsOverviewEvent extends Equatable {
   const ItemsOverviewEvent();
 
@@ -13,8 +12,7 @@ class ItemsOverviewSubscriptionRequested extends ItemsOverviewEvent {
 }
 
 class ItemsOverviewFilterChanged extends ItemsOverviewEvent {
-  const ItemsOverviewFilterChanged(
-      {
+  const ItemsOverviewFilterChanged({
     required this.filter,
     required this.permissivenessFilter,
     required this.orderBy,
@@ -25,7 +23,20 @@ class ItemsOverviewFilterChanged extends ItemsOverviewEvent {
   final OrderBy orderBy;
 
   @override
-  List<Object> get props => [filter, permissivenessFilter, orderBy,];
+  List<Object> get props => [
+        filter,
+        permissivenessFilter,
+        orderBy,
+      ];
 }
 
+class ItemsSearchCompleted extends ItemsOverviewEvent {
+  const ItemsSearchCompleted({
+    required this.searchString,
+  });
 
+  final String searchString;
+
+  @override
+  List<Object> get props => [searchString];
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:halal_mobile_app/features/caterings/presentation/widgets/caterings_filter_window.dart';
 
 import 'package:halal_mobile_app/features/items_overview/presentation/widgets/bottom_loader.dart';
 import 'package:halal_mobile_app/features/items_overview/presentation/widgets/logo_bar.dart';
@@ -74,7 +75,7 @@ class _CateringsOverviewViewState extends State<CateringsOverviewView>
                         automaticallyImplyLeading: false,
                         titleSpacing: 0,
                         backgroundColor: Theme.of(context).primaryColor,
-                        title: HalalSearchBar(),
+                        title: HalalSearchBar(filterWindow: CateringsFilterWindow(),),
                       ),
                     ];
                   },

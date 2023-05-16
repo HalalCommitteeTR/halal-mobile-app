@@ -6,7 +6,7 @@ import 'package:halal_mobile_app/features/caterings/domain/entities/cuisine_type
 import 'package:halal_mobile_app/features/common/widgets/container_app_tile.dart';
 import 'package:halal_mobile_app/features/common/widgets/container_leading.dart';
 
-import '../../../../theme/halal_app_theme.dart';
+import 'package:halal_mobile_app/theme/halal_app_theme.dart';
 
 class CateringTile extends StatelessWidget {
   const CateringTile({
@@ -23,8 +23,10 @@ class CateringTile extends StatelessWidget {
           ListTile(
             title: Text(companyBranch.name),
             subtitle: Text(
-              'г. ${companyBranch.districtSettlementName}, ул. ${companyBranch.street} ${companyBranch.building}',
-              style: TextStyle(color: HalalAppTheme.mainTextColor,),
+              '${companyBranch.districtSettlementName ?? ''}, ${companyBranch.street ?? ''} ${companyBranch.building ?? ''}',
+              style: TextStyle(
+                color: HalalAppTheme.mainTextColor,
+              ),
             ),
             leading: ContainerLeading(
               child: companyBranch.imageSource != null

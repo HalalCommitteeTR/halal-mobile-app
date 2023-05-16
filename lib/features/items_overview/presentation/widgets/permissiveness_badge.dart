@@ -45,6 +45,17 @@ class _PermissivenessBadgeState extends State<PermissivenessBadge> {
     }
   }
 
+  Color get _selectedColor {
+    switch (widget.permissiveness) {
+      case Permissiveness.haram:
+        return const Color.fromRGBO(181, 34, 27, 0.3);
+      case Permissiveness.halal:
+        return const Color.fromRGBO(17, 109, 51, 0.3);
+      case Permissiveness.doubtful:
+        return const Color.fromRGBO(28, 76, 137, 0.3);
+    }
+  }
+
   String _name(BuildContext context) {
     switch (widget.permissiveness) {
       case Permissiveness.haram:
@@ -70,8 +81,10 @@ class _PermissivenessBadgeState extends State<PermissivenessBadge> {
         horizontal: 20,
       ),
       padding: widget.padding ?? EdgeInsets.zero,
+      checkmarkColor: _textColor,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       disabledColor: _backgroundColor,
+      selectedColor: _selectedColor,
       tapEnabled: true,
       onSelected: widget.onSelected,
       selected: widget.selected,
