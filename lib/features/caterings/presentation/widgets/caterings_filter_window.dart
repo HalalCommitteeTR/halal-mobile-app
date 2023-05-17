@@ -53,144 +53,156 @@ class _CateringsFilterWindowState extends State<CateringsFilterWindow> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(15),
-
-      child: Wrap(
-        direction: Axis.vertical,
-        children: [
-          Text(AppLocale.of(context).sortByAlphabet),
-          Row(
-            children: [
-              FilterChip(
-                label: Text(
-                  'от А до Я',
-                ),
-                onSelected: (bool value) {
-                  if (value) {
-                    setState(() {
-                      orderBy = OrderBy.alphabetic;
-                    });
-                  } else if (orderBy == OrderBy.alphabetic) {
-                    setState(() {
-                      orderBy = OrderBy.none;
-                    });
-                  }
-                  _changeFilter(context);
-                },
-                selected: orderBy == OrderBy.alphabetic,
+    return DraggableScrollableSheet(
+        expand: false,
+        builder: (context, scrollController) => SingleChildScrollView(
+              controller: scrollController,
+              padding: const EdgeInsets.all(15),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(AppLocale.of(context).sortByAlphabet),
+                  Wrap(
+                    direction: Axis.horizontal,
+                    children: [
+                      FilterChip(
+                        label: Text(
+                          'от А до Я',
+                        ),
+                        onSelected: (bool value) {
+                          if (value) {
+                            setState(() {
+                              orderBy = OrderBy.alphabetic;
+                            });
+                          } else if (orderBy == OrderBy.alphabetic) {
+                            setState(() {
+                              orderBy = OrderBy.none;
+                            });
+                          }
+                          _changeFilter(context);
+                        },
+                        selected: orderBy == OrderBy.alphabetic,
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      FilterChip(
+                        label: Text(
+                          'от Я до А',
+                        ),
+                        onSelected: (value) {
+                          if (value) {
+                            setState(() {
+                              orderBy = OrderBy.alphabeticReversed;
+                            });
+                          } else if (orderBy == OrderBy.alphabeticReversed) {
+                            setState(() {
+                              orderBy = OrderBy.none;
+                            });
+                          }
+                          _changeFilter(context);
+                        },
+                        selected: orderBy == OrderBy.alphabeticReversed,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(AppLocale.of(context).prayerRoomAvailability + ':'),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  TypeChip(
+                    label: AppLocale.of(context).prayerRoom,
+                    backgroundColor: HalalAppTheme.halalBackgroundColor,
+                    textColor: HalalAppTheme.halalTextColor,
+                    selected: prayerRoomFilter,
+                    onSelected: (bool value) {
+                      setState(() {
+                        prayerRoomFilter = value;
+                      });
+                      _changeFilter(context);
+                    },
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(AppLocale.of(context).cateringType + ':'),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Wrap(
+                    direction: Axis.horizontal,
+                    spacing: 5,
+                    runSpacing: 10,
+                    children: [
+                      for (int index = 0;
+                          index < FoodPointType.values.length;
+                          ++index)
+                        TypeChip(
+                          label: FoodPointType.values[index].getString(context),
+                          backgroundColor:
+                              HalalAppTheme.doubtfulBackgroundColor,
+                          textColor: HalalAppTheme.doubtfulTextColor,
+                          selected: foodPointTypeFilter
+                              .contains(FoodPointType.values[index]),
+                          onSelected: (value) {
+                            if (value &&
+                                !foodPointTypeFilter
+                                    .contains(FoodPointType.values[index])) {
+                              foodPointTypeFilter
+                                  .add(FoodPointType.values[index]);
+                            } else {
+                              foodPointTypeFilter
+                                  .remove(FoodPointType.values[index]);
+                            }
+                            setState(() {});
+                            _changeFilter(context);
+                          },
+                        ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(AppLocale.of(context).cuisineType + ':'),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Wrap(
+                    direction: Axis.horizontal,
+                    spacing: 5,
+                    runSpacing: 10,
+                    children: [
+                      for (int index = 0;
+                          index < CuisineType.values.length;
+                          ++index)
+                        TypeChip(
+                          label: CuisineType.values[index].getString(context),
+                          backgroundColor:
+                              HalalAppTheme.cuisineTypeChipBackgroundColor,
+                          textColor: HalalAppTheme.cuisineTypeChipTextColor,
+                          selected: cuisineTypeFilter
+                              .contains(CuisineType.values[index]),
+                          onSelected: (value) {
+                            if (value &&
+                                !cuisineTypeFilter
+                                    .contains(CuisineType.values[index])) {
+                              cuisineTypeFilter.add(CuisineType.values[index]);
+                            } else {
+                              cuisineTypeFilter
+                                  .remove(CuisineType.values[index]);
+                            }
+                            setState(() {});
+                            _changeFilter(context);
+                          },
+                        ),
+                    ],
+                  ),
+                ],
               ),
-              SizedBox(
-                width: 15,
-              ),
-              FilterChip(
-                label: Text(
-                  'от Я до А',
-                ),
-                onSelected: (value) {
-                  if (value) {
-                    setState(() {
-                      orderBy = OrderBy.alphabeticReversed;
-                    });
-                  } else if (orderBy == OrderBy.alphabeticReversed) {
-                    setState(() {
-                      orderBy = OrderBy.none;
-                    });
-                  }
-                  _changeFilter(context);
-                },
-                selected: orderBy == OrderBy.alphabeticReversed,
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Text(AppLocale.of(context).prayerRoomAvailability + ':'),
-          SizedBox(
-            height: 15,
-          ),
-          TypeChip(
-            label: AppLocale.of(context).prayerRoom,
-            backgroundColor: HalalAppTheme.halalBackgroundColor,
-            textColor: HalalAppTheme.halalTextColor,
-            selected: prayerRoomFilter,
-            onSelected: (bool value) {
-              setState(() {
-                prayerRoomFilter = value;
-              });
-              _changeFilter(context);
-            },
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Text(AppLocale.of(context).cateringType + ':'),
-          SizedBox(
-            height: 15,
-          ),
-          Wrap(
-            direction: Axis.vertical,
-            spacing: 10,
-            children: [
-              for (int index = 0;
-                  index < FoodPointType.values.length;
-                  ++index)
-                TypeChip(
-                  label: FoodPointType.values[index].getString(context),
-                  backgroundColor: HalalAppTheme.doubtfulBackgroundColor,
-                  textColor: HalalAppTheme.doubtfulTextColor,
-                  selected: foodPointTypeFilter
-                      .contains(FoodPointType.values[index]),
-                  onSelected: (value) {
-                    if (value &&
-                        !foodPointTypeFilter
-                            .contains(FoodPointType.values[index])) {
-                      foodPointTypeFilter.add(FoodPointType.values[index]);
-                    } else {
-                      foodPointTypeFilter.remove(FoodPointType.values[index]);
-                    }
-                    setState(() {});
-                    _changeFilter(context);
-                  },
-                ),
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Text(AppLocale.of(context).cuisineType + ':'),
-          SizedBox(
-            height: 15,
-          ),
-          Wrap(
-            direction: Axis.vertical,
-            spacing: 10,
-            children: [
-              for (int index = 0; index < CuisineType.values.length; ++index)
-                TypeChip(
-                  label: CuisineType.values[index].getString(context),
-                  backgroundColor:
-                      HalalAppTheme.cuisineTypeChipBackgroundColor,
-                  textColor: HalalAppTheme.cuisineTypeChipTextColor,
-                  selected:
-                      cuisineTypeFilter.contains(CuisineType.values[index]),
-                  onSelected: (value) {
-                    if (value &&
-                        !cuisineTypeFilter
-                            .contains(CuisineType.values[index])) {
-                      cuisineTypeFilter.add(CuisineType.values[index]);
-                    } else {
-                      cuisineTypeFilter.remove(CuisineType.values[index]);
-                    }
-                    setState(() {});
-                    _changeFilter(context);
-                  },
-                ),
-            ],
-          ),
-        ],
-      ),
-    );
+            ),);
   }
 }

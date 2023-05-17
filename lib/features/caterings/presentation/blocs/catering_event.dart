@@ -32,3 +32,14 @@ class CateringFilterChanged extends CateringEvent {
         orderBy,
       ];
 }
+
+class CateringsSearchCompleted extends CateringEvent {
+  const CateringsSearchCompleted({
+    required this.searchString,
+  });
+
+  final String searchString;
+
+  @override
+  List<Object> get props => [searchString];
+}

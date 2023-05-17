@@ -14,6 +14,7 @@ class HalalSearchBar extends StatefulWidget {
   }) : super(key: key);
   final void Function(String searchString)? search;
   final Widget filterWindow;
+
   @override
   State<HalalSearchBar> createState() => _HalalSearchBarState();
 }
@@ -28,7 +29,6 @@ class _HalalSearchBarState extends State<HalalSearchBar> {
     controller.addListener(_searchListener);
   }
 
-  // TODO - callback to make a search
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -93,6 +93,13 @@ class _HalalSearchBarState extends State<HalalSearchBar> {
                     context: context,
                     builder: (context) => widget.filterWindow,
                     enableDrag: true,
+                    useSafeArea: true,
+                    // showDragHandle: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(10),
+                      ),
+                    ),
                   );
                 },
                 icon: SvgPicture.asset('assets/icons/filter.svg'),
