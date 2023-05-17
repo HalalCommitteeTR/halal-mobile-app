@@ -14,6 +14,7 @@ class HalalSearchBar extends StatefulWidget {
   }) : super(key: key);
   final void Function(String searchString)? search;
   final Widget filterWindow;
+
   @override
   State<HalalSearchBar> createState() => _HalalSearchBarState();
 }
@@ -93,6 +94,19 @@ class _HalalSearchBarState extends State<HalalSearchBar> {
                     context: context,
                     builder: (context) => widget.filterWindow,
                     enableDrag: true,
+                    useSafeArea: true,
+                    // showDragHandle: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(10),
+                      ),
+                    ),
+
+                    // constraints: BoxConstraints.loose(
+                    //   Size.fromHeight(
+                    //     MediaQuery.of(context).size.height * 0.75,
+                    //   ),
+                    // ),
                   );
                 },
                 icon: SvgPicture.asset('assets/icons/filter.svg'),
