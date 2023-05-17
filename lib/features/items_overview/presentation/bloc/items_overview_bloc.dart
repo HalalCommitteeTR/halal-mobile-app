@@ -47,7 +47,10 @@ class ItemsOverviewBloc extends Bloc<ItemsOverviewEvent, ItemsOverviewState> {
         );
       }
       emit(state.copyWith(status: ItemsOverviewStatus.loading));
-      final items = await itemRepository.getItems(offset: state.items.length, like: state.searchString,);
+      final items = await itemRepository.getItems(
+        offset: state.items.length,
+        like: state.searchString,
+      );
       items.isEmpty
           ? emit(state.copyWith(
               hasReachedMax: true,
@@ -76,14 +79,17 @@ class ItemsOverviewBloc extends Bloc<ItemsOverviewEvent, ItemsOverviewState> {
     ));
   }
 
-  void _onItemsSearchCompleted(ItemsSearchCompleted event,
-      Emitter<ItemsOverviewState> emit,) {
-    emit(state.copyWith(
-      searchString: event.searchString,
-      status: ItemsOverviewStatus.initial,
-      hasReachedMax: false,
-      items: [],
-    ));
-    // _onItemsOverviewSubscriptionRequested(event, emit);
+  void _onItemsSearchCompleted(
+    ItemsSearchCompleted event,
+    Emitter<ItemsOverviewState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        searchString: event.searchString,
+        status: ItemsOverviewStatus.initial,
+        hasReachedMax: false,
+        items: [],
+      ),
+    );
   }
 }

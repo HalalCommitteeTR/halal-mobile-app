@@ -50,6 +50,7 @@ class HttpCateringDataSource extends CateringDataSource {
       throw CateringFailure();
     }
     final json = jsonDecode(response.body);
+    logger.i(json);
     return List<CompanyBranch>.from(
       json.map(
         (jsonCompanyBranch) => CompanyBranch.fromJson(

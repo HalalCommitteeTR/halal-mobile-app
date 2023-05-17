@@ -9,6 +9,7 @@ class CateringState extends Equatable {
     this.prayerRoomFilter = false,
     this.orderBy = OrderBy.none,
     this.hasReachedMax = false,
+    this.searchString = '',
   });
 
   final CateringOverviewStatus status;
@@ -18,14 +19,27 @@ class CateringState extends Equatable {
   final bool prayerRoomFilter;
   final OrderBy orderBy;
   final bool hasReachedMax;
+  final String searchString;
 
   List<CompanyBranch> get filteredCaterings {
-    return caterings.where((element) {
+    // var filtered = <CompanyBranch>[];
+    // for (int i = 0; i < caterings.length; ++i) {
+    //   if (foodPointTypeFilter.contains(caterings[i].foodPointType)
+    //   && cuisineTypeFilter.contains(caterings[i].cuisineType)) {
+    //     filtered.add(caterings[i]);
+    //   }
+    // }
+    // if (orderBy != OrderBy.none)
+    //   filtered.sort(orderBy.cateringsCompareTo);
+    // return filtered;
+    var filtered = caterings.where((element) {
       return foodPointTypeFilter.contains(element.foodPointType) &&
           cuisineTypeFilter.contains(element.cuisineType) &&
           (prayerRoomFilter == element.isPrayerRoomExist || !prayerRoomFilter);
-    }).toList()
-      ..sort(orderBy.cateringsCompareTo);
+    }).toList();
+    if (orderBy != OrderBy.none)
+       filtered.sort(orderBy.cateringsCompareTo);
+    return filtered;
   }
 
   CateringState copyWith({
@@ -36,6 +50,7 @@ class CateringState extends Equatable {
     bool? prayerRoomFilter,
     OrderBy? orderBy,
     bool? hasReachedMax,
+    String? searchString,
   }) {
     return CateringState(
       status: status ?? this.status,
@@ -45,6 +60,7 @@ class CateringState extends Equatable {
       prayerRoomFilter: prayerRoomFilter ?? this.prayerRoomFilter,
       orderBy: orderBy ?? this.orderBy,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      searchString: searchString ?? this.searchString,
     );
   }
 
@@ -57,6 +73,7 @@ class CateringState extends Equatable {
         foodPointTypeFilter,
         cuisineTypeFilter,
         prayerRoomFilter,
+        searchString,
       ];
 }
 

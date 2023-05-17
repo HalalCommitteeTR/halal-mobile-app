@@ -29,7 +29,6 @@ class _HalalSearchBarState extends State<HalalSearchBar> {
     controller.addListener(_searchListener);
   }
 
-  // TODO - callback to make a search
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -101,12 +100,6 @@ class _HalalSearchBarState extends State<HalalSearchBar> {
                         top: Radius.circular(10),
                       ),
                     ),
-
-                    // constraints: BoxConstraints.loose(
-                    //   Size.fromHeight(
-                    //     MediaQuery.of(context).size.height * 0.75,
-                    //   ),
-                    // ),
                   );
                 },
                 icon: SvgPicture.asset('assets/icons/filter.svg'),

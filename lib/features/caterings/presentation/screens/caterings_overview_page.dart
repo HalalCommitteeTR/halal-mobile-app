@@ -39,69 +39,79 @@ class _CateringsOverviewViewState extends State<CateringsOverviewView>
   Widget build(BuildContext context) {
     return BlocBuilder<CateringBloc, CateringState>(
       builder: (context, state) {
-        switch (state.status) {
-          case CateringOverviewStatus.failure:
-            return const Text('Fail to load items');
-          case CateringOverviewStatus.initial:
-            return Center(
-              child: CircularProgressIndicator(
-                color: Theme.of(context).primaryColor,
-              ),
-            );
-          case CateringOverviewStatus.loading:
-          case CateringOverviewStatus.success:
-            if (state.caterings.isEmpty) {
-              return Center(child: const Text('No caterings'));
-            }
-            return SafeArea(
-              child: Scaffold(
-                body: NestedScrollView(
-                  controller: _scrollController,
-                  headerSliverBuilder: (
-                    BuildContext context,
-                    bool innerBoxIsScrolled,
-                  ) {
-                    return [
-                      SliverAppBar(
-                        automaticallyImplyLeading: false,
-                        titleSpacing: 0,
-                        toolbarHeight: 70,
-                        backgroundColor: Theme.of(context).primaryColor,
-                        title: LogoBar(onSettingsPressed: () {}),
-                      ),
-                      SliverAppBar(
-                        pinned: true,
-                        toolbarHeight: 68,
-                        automaticallyImplyLeading: false,
-                        titleSpacing: 0,
-                        backgroundColor: Theme.of(context).primaryColor,
-                        title: HalalSearchBar(filterWindow: CateringsFilterWindow(),),
-                      ),
-                    ];
-                  },
-                  body: CustomScrollView(
-                    slivers: [
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          childCount: state.hasReachedMax
-                              ? state.filteredCaterings.length
-                              : state.filteredCaterings.length + 1,
-                          (_, index) {
-                            return index >= state.filteredCaterings.length
-                                ? const BottomLoader()
-                                : CateringTile(
-                                    companyBranch:
-                                        state.filteredCaterings[index],
-                                  );
-                          },
+        return SafeArea(
+          child: Scaffold(
+            body: NestedScrollView(
+              controller: _scrollController,
+              headerSliverBuilder: (
+                BuildContext context,
+                bool innerBoxIsScrolled,
+              ) {
+                return [
+                  SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    titleSpacing: 0,
+                    toolbarHeight: 70,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    title: LogoBar(onSettingsPressed: () {}),
+                  ),
+                  SliverAppBar(
+                    pinned: true,
+                    toolbarHeight: 68,
+                    automaticallyImplyLeading: false,
+                    titleSpacing: 0,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    title: HalalSearchBar(
+                      filterWindow: CateringsFilterWindow(),
+                      search: (String searchString) {
+                        context.read<CateringBloc>().add(
+                              CateringsSearchCompleted(
+                                searchString: searchString,
+                              ),
+                            );
+                        context
+                            .read<CateringBloc>()
+                            .add(CateringSubscriptionRequested());
+                      },
+                    ),
+                  ),
+                ];
+              },
+              body: CustomScrollView(
+                slivers: [
+                  if (state.status == CateringOverviewStatus.initial)
+                    SliverToBoxAdapter(
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  if (state.status == CateringOverviewStatus.loading ||
+                      state.status == CateringOverviewStatus.success)
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        childCount: state.hasReachedMax
+                            ? state.filteredCaterings.length
+                            : state.filteredCaterings.length + 1,
+                        (_, index) {
+                          return index >= state.filteredCaterings.length
+                              ? const BottomLoader()
+                              : CateringTile(
+                                  companyBranch: state.filteredCaterings[index],
+                                );
+                        },
+                      ),
+                    ),
+                  if (state.status == CateringOverviewStatus.failure)
+                    Center(
+                      child: Text('Fail to load items'),
+                    ),
+                ],
               ),
-            );
-        }
+            ),
+          ),
+        );
       },
     );
   }
