@@ -17,13 +17,17 @@ class CateringTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String subtitle = '${companyBranch.districtSettlementName ?? ''}, ${companyBranch.street ?? ''} ${companyBranch.building ?? ''}';
+    if (subtitle[subtitle.length - 1] == ',') {
+      subtitle = subtitle.substring(0, subtitle.length - 1);
+    }
     return ContainerAppTile(
       child: Column(
         children: [
           ListTile(
             title: Text(companyBranch.name),
             subtitle: Text(
-              '${companyBranch.districtSettlementName ?? ''}, ${companyBranch.street ?? ''} ${companyBranch.building ?? ''}',
+              subtitle,
               style: TextStyle(
                 color: HalalAppTheme.mainTextColor,
               ),
@@ -31,8 +35,8 @@ class CateringTile extends StatelessWidget {
             leading: ContainerLeading(
               child: companyBranch.imageSource != null
                   ? Image.network(
-                      companyBranch.imageSource!,
-                    )
+                companyBranch.imageSource!,
+              )
                   : const Icon(Icons.emoji_food_beverage_rounded),
             ),
             // trailing: Icon(Icons.ice_skating),
