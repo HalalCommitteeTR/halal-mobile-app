@@ -149,8 +149,10 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView>
                             ),
                           ),
                         if (state.status == ItemsOverviewStatus.failure)
-                          Center(
-                            child: Text('Fail to load items'),
+                          SliverToBoxAdapter(
+                            child: Center(
+                              child: Text('Fail to load items'),
+                            ),
                           ),
                       ],
                     );

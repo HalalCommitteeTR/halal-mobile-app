@@ -11,6 +11,19 @@ class ItemsOverviewSubscriptionRequested extends ItemsOverviewEvent {
   const ItemsOverviewSubscriptionRequested();
 }
 
+class ItemsOverviewStartListening extends ItemsOverviewEvent {
+  const ItemsOverviewStartListening();
+}
+
+class ItemsOverviewDataUpdated extends ItemsOverviewEvent {
+  const ItemsOverviewDataUpdated({required this.items});
+
+  final List<Item> items;
+
+  @override
+  List<Object> get props => [items];
+}
+
 class ItemsOverviewFilterChanged extends ItemsOverviewEvent {
   const ItemsOverviewFilterChanged({
     required this.filter,
