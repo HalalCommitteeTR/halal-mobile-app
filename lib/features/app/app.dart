@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halal_mobile_app/app_locale.dart';
-import 'package:halal_mobile_app/features/caterings/domain/repositories/catering_repository_impl.dart';
+import 'package:halal_mobile_app/features/caterings/data/repositories/catering_repository_impl.dart';
+import 'package:halal_mobile_app/features/caterings/domain/repositories/catering_repository.dart';
 import 'package:halal_mobile_app/features/caterings/presentation/blocs/catering_bloc.dart';
 import 'package:halal_mobile_app/features/home/home.dart';
 import 'package:halal_mobile_app/features/items_overview/data/repositories/firebase_item_repository.dart';
@@ -19,7 +20,7 @@ class App extends StatelessWidget {
   });
 
   final ItemRepository itemRepository;
-  final CateringRepositoryImpl cateringRepository;
+  final CateringRepository cateringRepository;
 
   @override
   Widget build(BuildContext context) {

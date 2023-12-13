@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:halal_mobile_app/features/common/widgets/app_tile.dart';
 import 'package:halal_mobile_app/features/items_overview/domain/entities/item.dart';
 import 'package:halal_mobile_app/features/items_overview/domain/entities/permissiveness.dart';
@@ -26,7 +25,9 @@ class ItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppTile(
-      title: Text(item.name),
+      title: Text(
+        item.name,
+      ),
       subtitle:
       item is FoodAdditive ? Text((item as FoodAdditive).eNumber) : null,
       // leading: Image.network(
@@ -40,9 +41,9 @@ class ItemTile extends StatelessWidget {
       ),
       description: item.description != null
           ? Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Text(item.description!),
-          )
+        padding: const EdgeInsets.all(12.0),
+        child: Text(item.description!),
+      )
           : null,
       borderColor: _borderColor,
     );

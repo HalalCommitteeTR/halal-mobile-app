@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:halal_mobile_app/features/caterings/domain/entities/company_branch.dart';
-import 'package:halal_mobile_app/features/caterings/domain/repositories/catering_repository_impl.dart';
+import 'package:halal_mobile_app/features/caterings/domain/repositories/catering_repository.dart';
 
 import 'package:halal_mobile_app/features/items_overview/domain/entities/order_by.dart';
 import 'package:halal_mobile_app/features/caterings/domain/entities/cuisine_type.dart';
 import 'package:halal_mobile_app/features/caterings/domain/entities/food_point_type.dart';
 
-import '../../../../logger/logger.dart';
+import 'package:halal_mobile_app/logger/logger.dart';
 
 part 'catering_event.dart';
 
@@ -23,7 +23,7 @@ class CateringBloc extends Bloc<CateringEvent, CateringState> {
     on<CateringsSearchCompleted>(_onCateringsSearchCompleted);
   }
 
-  final CateringRepositoryImpl cateringRepository;
+  final CateringRepository cateringRepository;
 
   Future<void> _onCateringSubscriptionRequested(
     CateringSubscriptionRequested event,

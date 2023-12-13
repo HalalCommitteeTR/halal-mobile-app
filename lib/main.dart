@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:halal_mobile_app/features/app/app.dart';
 import 'package:halal_mobile_app/features/caterings/data/data_sources/http_catering_data_source.dart';
 import 'package:halal_mobile_app/features/caterings/data/data_sources/json_catering_data_source.dart';
-import 'package:halal_mobile_app/features/caterings/domain/repositories/catering_repository_impl.dart';
+import 'package:halal_mobile_app/features/caterings/data/repositories/catering_repository_impl.dart';
+import 'package:halal_mobile_app/features/caterings/data/repositories/firebase_catering_repository.dart';
 import 'package:halal_mobile_app/features/items_overview/data/data_sources/http_item_data_source.dart';
 import 'package:halal_mobile_app/features/items_overview/data/data_sources/json_item_data_source.dart';
 import 'package:halal_mobile_app/features/items_overview/data/repositories/firebase_item_repository.dart';
@@ -31,14 +32,13 @@ Future<void> main() async {
   final jsonItemDataSource = JsonItemDataSource();
   final jsonCateringDataSource = JsonCateringDataSource();
   final firebaseItemRepository = FirebaseItemRepository();
+  final firebaseCateringRepository = FirebaseCateringRepository();
   runApp(
     App(
       itemRepository: //ItemRepositoryMock(),
           //ItemRepositoryImpl(itemDataSource: jsonItemDataSource),
           firebaseItemRepository,
-      cateringRepository: CateringRepositoryImpl(
-        cateringDataSource: jsonCateringDataSource,
-      ),
+      cateringRepository: firebaseCateringRepository,
     ),
   );
 }

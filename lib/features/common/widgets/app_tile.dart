@@ -1,3 +1,4 @@
+import 'package:expansion_tile_group/expansion_tile_group.dart';
 import 'package:flutter/material.dart';
 import 'package:halal_mobile_app/features/common/widgets/container_app_tile.dart';
 import 'package:halal_mobile_app/features/common/widgets/container_leading.dart';
@@ -33,24 +34,38 @@ class _AppTileState extends State<AppTile> {
   @override
   Widget build(BuildContext context) {
     return ContainerAppTile(
-      padding: widget.subtitle == null ? const EdgeInsets.symmetric(vertical: 8,) : null,
+      padding: widget.subtitle == null
+          ? const EdgeInsets.symmetric(
+              vertical: 8,
+            )
+          : null,
       gradient: widget.borderColor != null
           ? LinearGradient(
-        stops: const [1 / 69, 1 / 69],
-        colors: [widget.borderColor!, Colors.white],
-      )
+              stops: const [1 / 69, 1 / 69],
+              colors: [widget.borderColor!, Colors.white],
+            )
           : null,
-      child: ExpansionTile(
+      child: ExpansionTileItem(
+        isHasTrailing: false,
         leading: widget.leading != null
             ? ContainerLeading(
                 child: widget.leading,
               )
             : null,
-        title: widget.title,
+        title: Padding(
+          padding: const EdgeInsets.only(bottom: 4.0),
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            runSpacing: 8,
+            spacing: 8,
+            children: [
+              widget.title,
+              if (widget.trailing != null) widget.trailing!,
+            ],
+          ),
+        ),
         subtitle: widget.subtitle,
-        trailing: widget.trailing,
         textColor: HalalAppTheme.mainTextColor,
-
         children: [
           SizedBox(
             height: 15,

@@ -61,7 +61,8 @@ class FirebaseItemRepository implements ItemRepository {
       if (like == null) return result.toList();
       return result
           .where((element) =>
-              element.name.contains(like!) || element.eNumber.contains(like!))
+              element.name.toLowerCase().contains(like!.toLowerCase()) ||
+              element.eNumber.toLowerCase().contains(like!.toLowerCase()))
           .toList();
     } catch (e, stackTrace) {
       logger.e(e, e, stackTrace);
@@ -82,7 +83,10 @@ class FirebaseItemRepository implements ItemRepository {
         querySnapshots.docs.map((e) => Ingredient.fromJson(e.data()));
     logger.i(result);
     if (like == null) return result.toList();
-    return result.where((element) => element.name.contains(like!)).toList();
+    return result
+        .where((element) =>
+            element.name.toLowerCase().contains(like!.toLowerCase()))
+        .toList();
   }
 
   @override
