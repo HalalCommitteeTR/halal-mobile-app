@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:halal_mobile_app/app_locale.dart';
 import 'package:halal_mobile_app/features/items_overview/domain/entities/items_view_filter.dart';
 import 'package:halal_mobile_app/features/items_overview/presentation/bloc/items_overview_bloc.dart';
 import 'package:halal_mobile_app/features/items_overview/presentation/widgets/bottom_loader.dart';
 import 'package:halal_mobile_app/features/items_overview/presentation/widgets/filter_window.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/widgets/halal_search_bar.dart';
 import 'package:halal_mobile_app/features/items_overview/presentation/widgets/item_tile.dart';
 import 'package:halal_mobile_app/features/items_overview/presentation/widgets/logo_bar.dart';
-import 'package:halal_mobile_app/features/items_overview/presentation/widgets/halal_search_bar.dart';
 import 'package:halal_mobile_app/features/settings/settings.dart';
 
 class ItemsOverviewPage extends StatelessWidget {
@@ -133,20 +132,31 @@ class _ItemsOverviewViewState extends State<ItemsOverviewView>
                           ),
                         if (state.status == ItemsOverviewStatus.success ||
                             state.status == ItemsOverviewStatus.loading)
-                          SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              childCount: state.hasReachedMax
-                                  ? state.filteredItems.length
-                                  : state.filteredItems.length + 1,
-                              (_, index) {
-                                return (index < state.filteredItems.length) ||
-                                        (state.hasReachedMax)
-                                    ? ItemTile(
-                                        item: state.filteredItems[index],
-                                      )
-                                    : const BottomLoader();
-                              },
-                            ),
+                          SliverList.builder(
+                            itemCount: state.hasReachedMax
+                                ? state.filteredItems.length
+                                : state.filteredItems.length + 1,
+                            itemBuilder: (BuildContext context, int index) {
+                              return (index < state.filteredItems.length) ||
+                                      (state.hasReachedMax)
+                                  ? ItemTile(
+                                      item: state.filteredItems[index],
+                                    )
+                                  : const BottomLoader();
+                            },
+                            // delegate: SliverChildBuilderDelegate(
+                            //   childCount: state.hasReachedMax
+                            //       ? state.filteredItems.length
+                            //       : state.filteredItems.length + 1,
+                            //   (_, index) {
+                            //     return (index < state.filteredItems.length) ||
+                            //             (state.hasReachedMax)
+                            //         ? ItemTile(
+                            //             item: state.filteredItems[index],
+                            //           )
+                            //         : const BottomLoader();
+                            //   },
+                            // ),
                           ),
                         if (state.status == ItemsOverviewStatus.failure)
                           SliverToBoxAdapter(

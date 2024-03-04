@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:halal_mobile_app/features/caterings/presentation/widgets/caterings_filter_window.dart';
-
-import 'package:halal_mobile_app/features/items_overview/presentation/widgets/bottom_loader.dart';
-import 'package:halal_mobile_app/features/items_overview/presentation/widgets/logo_bar.dart';
-import 'package:halal_mobile_app/features/items_overview/presentation/widgets/halal_search_bar.dart';
 import 'package:halal_mobile_app/features/caterings/presentation/blocs/catering_bloc.dart';
 import 'package:halal_mobile_app/features/caterings/presentation/widgets/catering_tile.dart';
+import 'package:halal_mobile_app/features/caterings/presentation/widgets/caterings_filter_window.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/widgets/bottom_loader.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/widgets/halal_search_bar.dart';
+import 'package:halal_mobile_app/features/items_overview/presentation/widgets/logo_bar.dart';
+
+import '../../../settings/settings.dart';
 
 class CateringsOverviewPage extends StatelessWidget {
   const CateringsOverviewPage({Key? key}) : super(key: key);
@@ -53,7 +54,11 @@ class _CateringsOverviewViewState extends State<CateringsOverviewView>
                     titleSpacing: 0,
                     toolbarHeight: 70,
                     backgroundColor: Theme.of(context).primaryColor,
-                    title: LogoBar(onSettingsPressed: () {}),
+                    title: LogoBar(onSettingsPressed: () {Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => SettingsPage(),
+                      ),
+                    );}),
                   ),
                   SliverAppBar(
                     pinned: true,
@@ -89,19 +94,29 @@ class _CateringsOverviewViewState extends State<CateringsOverviewView>
                     ),
                   if (state.status == CateringOverviewStatus.loading ||
                       state.status == CateringOverviewStatus.success)
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        childCount: state.hasReachedMax
-                            ? state.filteredCaterings.length
-                            : state.filteredCaterings.length + 1,
-                        (_, index) {
-                          return index >= state.filteredCaterings.length
-                              ? const BottomLoader()
-                              : CateringTile(
-                                  companyBranch: state.filteredCaterings[index],
-                                );
-                        },
-                      ),
+                    SliverList.builder(
+                      itemBuilder: (context, index) {
+                        return index >= state.filteredCaterings.length
+                            ? const BottomLoader()
+                            : CateringTile(
+                                companyBranch: state.filteredCaterings[index],
+                              );
+                      },
+                      itemCount: state.hasReachedMax
+                          ? state.filteredCaterings.length
+                          : state.filteredCaterings.length + 1,
+                      // delegate: SliverChildBuilderDelegate(
+                      //   childCount: state.hasReachedMax
+                      //       ? state.filteredCaterings.length
+                      //       : state.filteredCaterings.length + 1,
+                      //   (_, index) {
+                      //     return index >= state.filteredCaterings.length
+                      //         ? const BottomLoader()
+                      //         : CateringTile(
+                      //             companyBranch: state.filteredCaterings[index],
+                      //           );
+                      //   },
+                      // ),
                     ),
                   if (state.status == CateringOverviewStatus.failure)
                     Center(
